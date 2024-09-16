@@ -14,8 +14,16 @@
     outline-style: dashed
 }
 
+.menu-toggle .for-dk {
+    display: none !important;
+}
+
 .for-dk {
     display: block;
+}
+
+.menu-toggle .for-ml {
+    display: block !important;
 }
 
 .for-ml {
