@@ -14,6 +14,24 @@
     outline-style: dashed
 }
 
+.for-dk {
+    display: block;
+}
+
+.for-ml {
+    display: none
+}
+
+@media (max-width: 767px) {
+    .for-dk {
+        display: none !important;
+    }
+
+    .for-ml {
+        display: block !important;
+    }
+}
+
 .admin [data-v-71bb21a6]:is(.dark .is-button:focus-within) {
     outline-color: #475569
 }
