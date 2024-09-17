@@ -1,7 +1,7 @@
 let UserModel = require("../models/userModel");
 // Usedto handle error
 const errorHandler = require("../utils/errorHandler");
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 const getDataUri = require("../utils/dataUri");
 
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
@@ -528,7 +528,8 @@ exports.updateKyc = catchAsyncErrors(async (req, res, next) => {
     {
       kyc: kyc,
       submitDoc: {
-        status: status,
+        status: status, cnic: null,  // Retain existing cnic if present
+        bill: null,
       },
     },
     { new: true, upsert: true }
@@ -550,19 +551,46 @@ exports.getsignUser = catchAsyncErrors(async (req, res, next) => {
   });
 });
 exports.verifySingleUser = catchAsyncErrors(async (req, res, next) => {
-  let { id, cnic, bill } = req.body;
+  let { id } = req.body;
+  const files = req.files;
 
+  if (!files || files.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "No files uploaded",
+    });
+  }
+  const uploadFileToCloudinary = (fileBuffer, fileName) => {
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream({ resource_type: 'image', public_id: `kyc/${id}/${fileName}` }, (error, result) => {
+        if (error) reject(error);
+        else resolve(result.secure_url); // Get the Cloudinary URL
+      }).end(fileBuffer);
+    });
+  };
+  const cnicFile = files.find((file) => file.fieldname === 'cnic');
+  const billFile = files.find((file) => file.fieldname === 'bill');
+  if (!cnicFile || !billFile) {
+    return res.status(400).json({
+      success: false,
+      message: "Both cnic and bill files are required",
+    });
+  }
+  const cnicUrl = await uploadFileToCloudinary(cnicFile.buffer, cnicFile.originalname);
+  const billUrl = await uploadFileToCloudinary(billFile.buffer, billFile.originalname);
+  console.log('billUrl: ', billUrl);
   let signleUser = await UserModel.findByIdAndUpdate(
     { _id: id },
     {
       submitDoc: {
         status: "completed",
-        cnic: cnic,
-        bill: bill,
+        cnic: cnicUrl,  // Store the Cloudinary URL for cnic
+        bill: billUrl,  // Store the Cloudinary URL for bill
       },
     },
     { new: true, upsert: true }
   );
+
   signleUser.save();
 
   res.status(200).send({
@@ -571,6 +599,7 @@ exports.verifySingleUser = catchAsyncErrors(async (req, res, next) => {
     signleUser,
   });
 });
+
 
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   let email = req.body.email;
