@@ -348,7 +348,7 @@ const AdminUsers = () => {
                                   <div className="relative inline-flex shrink-0 items-center justify-center outline-none h-20 w-20 rounded-full bg-purple-500/20 text-purple-500">
                                     <div className="flex h-full w-full items-center justify-center overflow-hidden text-center transition-all duration-300 rounded-full">
                                       <img
-                                        src={Log}
+                                        src="https://www.token-trade.pro/static/media/log.cbe9cc978c3a68b6f06b.jpg"
                                         className="max-h-full max-w-full object-cover shadow-sm dark:border-transparent h-20 w-20"
                                       />
                                       {/**/}
@@ -485,7 +485,7 @@ const AdminUsers = () => {
                                   <div className="relative inline-flex shrink-0 items-center justify-center outline-none h-20 w-20 rounded-full bg-purple-500/20 text-purple-500">
                                     <div className="flex h-full w-full items-center justify-center overflow-hidden text-center transition-all duration-300 rounded-full">
                                       <img
-                                        src={Log}
+                                        src="https://www.token-trade.pro/static/media/log.cbe9cc978c3a68b6f06b.jpg"
                                         className="max-h-full max-w-full object-cover shadow-sm dark:border-transparent h-20 w-20"
                                       />
                                       {/**/}
