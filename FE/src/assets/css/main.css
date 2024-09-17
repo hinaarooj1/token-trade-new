@@ -14,6 +14,13 @@
     outline-style: dashed
 }
 
+.logo-to-show2,
+.logo-to-show {
+    width: 300px !important;
+    display: block;
+    margin: 10px auto;
+}
+
 .menu-toggle .for-dk {
     display: none !important;
 }
