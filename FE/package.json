@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "main": "public/main.js",
-  "homepage": "./",
   "dependencies": {
     "15": "^0.0.0",
     "@ckeditor/ckeditor5-build-classic": "^40.2.0",
@@ -82,20 +81,6 @@
     "electron:serve": "concurrently -k \"cross-env BROWSER=none yarn start \" \"yarn electron:start\" ",
     "electron:build": "yarn build && electron-builder ",
     "electron:start": "wait-on http://127.0.0.1:3000 && electron ."
-  },
-  "build": {
-    "extends": null,
-    "appId": "com.electron.trackerR324",
-    "files": [
-      "dist/**/*",
-      "build/**/*",
-      "public/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    }
-     
-  
   },
   "eslintConfig": {
     "extends": [

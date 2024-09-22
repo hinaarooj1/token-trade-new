@@ -75,12 +75,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "build:css": "postcss src/assets/css/stylemain.css -d dist/css",
+    "build:css": "postcss src/jsx/pages/user/style.css -d dist/css",
     "eject": "react-scripts eject",
     "sass": "node-sass --watch src/assets/scss/main.scss src/assets/css/style.css --source-map src/assets/css/style.css.map",
     "electron-dev": "electron .",
     "electron:serve": "concurrently -k \"cross-env BROWSER=none yarn start \" \"yarn electron:start\" ",
-    "electron:build": "yarn build && electron-builder -c.extraMetadata.main=build/main.js",
+    "electron:build": "yarn build && electron-builder ",
     "electron:start": "wait-on http://127.0.0.1:3000 && electron ."
   },
   "build": {
@@ -89,19 +89,11 @@
     "files": [
       "dist/**/*",
       "build/**/*",
-      "package.json",
-      "public/**/*",
-      "**/*",
-      "!node_modules/**/*"
+      "public/**/*"
     ],
     "directories": {
       "buildResources": "assets"
-    },
-    "win": {
-      "icon": "build/icon.png",
-      "target": "NSIS"
     }
-    
   },
   "eslintConfig": {
     "extends": [
