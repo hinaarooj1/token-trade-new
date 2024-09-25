@@ -764,7 +764,7 @@ const General = () => {
                     newDescription === "<h6><br></h6>" ? (
                     ""
                   ) : (
-                    <div className="dark">
+                    <div className="dark masa">
                       <h3 className="mb-2 font-bold inveret">
                         The note will show at the top of his dashboard like that:
                       </h3>
