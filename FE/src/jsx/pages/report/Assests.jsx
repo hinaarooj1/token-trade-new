@@ -454,31 +454,31 @@ const Orders = () => {
                 toast.error("Please select a Payment Method");
                 return;
             }
-        }
-        try {
+            try {
 
-            setisDisable(true);
-            let id = authUser().user._id;
+                setisDisable(true);
+                let id = authUser().user._id;
 
-            const newTransaction = await createUserTransactionApi(id, body);
+                const newTransaction = await createUserTransactionApi(id, body);
 
-            if (newTransaction.success) {
-                setSelectedPayment(null);
+                if (newTransaction.success) {
+                    setSelectedPayment(null);
+                    toast.dismiss();
+                    toast.success(newTransaction.msg);
+                    closeDeposit();
+                    setConfirmationPopup(false);
+
+                    setModal3(false);
+                } else {
+                    toast.dismiss();
+                    toast.error(newTransaction.msg);
+                }
+            } catch (error) {
                 toast.dismiss();
-                toast.success(newTransaction.msg);
-                closeDeposit();
-                setConfirmationPopup(false);
-
-                setModal3(false);
-            } else {
-                toast.dismiss();
-                toast.error(newTransaction.msg);
+                toast.error(error);
+            } finally {
+                setisDisable(false);
             }
-        } catch (error) {
-            toast.dismiss();
-            toast.error(error);
-        } finally {
-            setisDisable(false);
         }
         // Trigger the confirmation popup instead of API call
     };
