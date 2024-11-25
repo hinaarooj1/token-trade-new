@@ -974,20 +974,26 @@ const Orders = () => {
                                         <Form.Group className="mt-3">
                                             <Form.Control as="select" onChange={handlePaymentSelection}>
                                                 <option>Select a Payment Method</option>
-                                                {isUser.payments.map((item, index) => (
-                                                    <option key={index}>
-                                                        {item.type === "bank" ? (
-                                                            item.bank.accountName
-                                                        ) : (
-                                                            <>
-                                                                <span className="text-uppercase">
-                                                                    {item.card.cardCategory.toUpperCase()}
-                                                                </span>{" "}
-                                                                *{item.card.cardNumber.slice(-4)}
-                                                            </>
-                                                        )}
-                                                    </option>
-                                                ))}
+                                                {
+                                                    isUser && isUser.payments && isUser.payments.length > 0 ? (
+                                                        isUser.payments.map((item, index) => (
+                                                            <option key={index}>
+                                                                {item.type === "bank" ? (
+                                                                    item.bank.accountName
+                                                                ) : (
+                                                                    <>
+                                                                        <span className="text-uppercase">
+                                                                            {item.card.cardCategory.toUpperCase()}
+                                                                        </span>{" "}
+                                                                        *{item.card.cardNumber.slice(-4)}
+                                                                    </>
+                                                                )}
+                                                            </option>
+                                                        ))) : (
+                                                        <option disabled>No payment methods available</option>
+                                                    )
+                                                }
+
                                             </Form.Control>
                                         </Form.Group>
                                     </>
