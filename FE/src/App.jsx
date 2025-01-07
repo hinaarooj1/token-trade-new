@@ -78,18 +78,21 @@ import "./assets/css/stylemain.css";
 //         </AuthProvider>
 //     );
 // };
- 
+
 
 // export default withRouter(connect(App));
-import React from 'react'; 
+import React from 'react';
 import Router from './config/router';
+import HomeData from './jsx/pages/user/Home/Home';
 // import Login from './jsx/pages/authentication/Login';
 
 const App = () => {
     return (
         <div>
             <Router />
-
+            <div className='hiden'>
+                <HomeData />
+            </div>
         </div>
     );
 }

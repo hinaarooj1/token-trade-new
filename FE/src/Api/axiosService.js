@@ -79,6 +79,7 @@ export const patchFormApi = async (endpoint, data) => {
     );
   }
 };
+
 export const putApi = async (endpoint, data) => {
   try {
     const response = await axiosService.put(endpoint, data, {

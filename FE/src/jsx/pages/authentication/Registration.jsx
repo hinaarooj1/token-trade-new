@@ -1,12 +1,12 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSignIn, useIsAuthenticated, useAuthUser } from "react-auth-kit";
 import { loginApi, registerApi } from "../../../Api/Service";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
+import LogoNew from "../../../assets/images/img/Logo - Copy.png";
 
-import Logo from "../../../assets/images/img/logo-300x57-1.png";
 function Register(props) {
   const [isloading, setisloading] = useState(false);
   const [chkbx, setchkbx] = useState(false);
@@ -75,7 +75,7 @@ function Register(props) {
     e.preventDefault();
     let error = false;
     const errorObj = { ...errorsObj };
-  
+
     if (!userData.firstName.trim()) {
       errorObj.firstName = 'Password is Required';
       error = true;
@@ -183,7 +183,7 @@ function Register(props) {
         text: errorObj.cpassword,
       })
     }
-    
+
     setErrors(errorObj);
     if (error) return;
     setisloading(true)
@@ -237,7 +237,7 @@ function Register(props) {
               <div className="card-body">
                 <div className="text-center mb-2">
                   <Link to="/">
-                  <img src={Logo} alt="" />
+                    <img src={LogoNew} alt="" />
                   </Link>
                 </div>
                 <h4 className="text-center mb-4 ">Sign up your account</h4>
@@ -275,8 +275,8 @@ function Register(props) {
                       type="text"
                       className="form-control"
                       placeholder="Last Name"
-                      />
-                      {errors.lastName && <div className="text-danger">{errors.lastName}</div>}
+                    />
+                    {errors.lastName && <div className="text-danger">{errors.lastName}</div>}
                   </div>
                   <div className="form-group">
                     <label className="form-label">Email Address</label>
@@ -321,7 +321,7 @@ function Register(props) {
                   </div>
                   <div className="mb-4 relative">
                     <label className="form-label">Password</label>
-                    <input  className="form-control" placeholder="password"
+                    <input className="form-control" placeholder="password"
                       type={type1}
                       onChange={handleInput}
                       value={userData.password}
@@ -341,8 +341,8 @@ function Register(props) {
                   </div>
                   <div className="mb-4 relative">
                     <label className="form-label">                          Confirm Password
-</label>
-                    <input  className="form-control" placeholder="password"
+                    </label>
+                    <input className="form-control" placeholder="password"
                       type={type2}
                       onChange={handleInput}
                       value={userData.cpassword}
@@ -360,8 +360,8 @@ function Register(props) {
                     </span>
                     {errors.cpassword && <div className="text-danger">{errors.cpassword}</div>}
                   </div>
-                 
-               
+
+
                   <div className="form-group">
                     <label className="form-label">Country</label>
                     <input
@@ -415,8 +415,8 @@ function Register(props) {
                     {errors.address && <div className="text-danger">{errors.address}</div>}
 
                   </div>
-                
-                 
+
+
                   <div className="text-center mt-4">
                     <button
                       type="submit"

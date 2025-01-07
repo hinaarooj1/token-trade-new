@@ -8,6 +8,10 @@
   background-color: #8b5cf61a !important;
 }
 
+.hiden {
+  display: none;
+}
+
 .admin .active.datas {
   --tw-text-opacity: 1 !important;
   color: #8b5cf6 !important;
@@ -65,7 +69,8 @@
 .admin
 
 /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button, .admin input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-button,
+.admin input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
