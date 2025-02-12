@@ -77,8 +77,10 @@ const Swap = () => {
                 axios.get("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT"),
             ]);
 
+            let id = authUser().user._id;
+            const userCoins = await getCoinsUserApi(id);
             if (response && response.data) {
-                let val = 96075.95;
+                let val = userCoins?.btcPrice?.quote?.USD?.price ?? 96075.25;
                 setLiveBtcPrice(parseFloat(val));
                 setliveBtc(val);
                 updateExpectedRate();

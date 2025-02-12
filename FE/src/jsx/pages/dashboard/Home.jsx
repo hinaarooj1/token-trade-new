@@ -214,8 +214,12 @@ export function MainComponent() {
 				// let val = response.data.bpi.USD.rate.replace(/,/g, "");
 
 				// setliveBtc(val);
-				setliveBtc(96075.95);
-				let lakh = btcValueAdded * 96075.95;
+				if (userCoins && userCoins.btcPrice && userCoins.btcPrice.quote && userCoins.btcPrice.quote.USD) {
+					setliveBtc(userCoins.btcPrice.quote.USD.price);
+				} else {
+					setliveBtc(96075.25);
+				}
+				let lakh = btcValueAdded * userCoins?.btcPrice?.quote?.USD?.price ?? 96075.25;
 				const totalValue = (
 					lakh +
 					ethValueAdded * 2640 +
@@ -284,7 +288,7 @@ export function MainComponent() {
 				}
 				// tx
 
-				let lakhPending = btcValueAddedPending * 96075.95;
+				let lakhPending = btcValueAddedPending * userCoins?.btcPrice?.quote?.USD?.price ?? 96075.25;
 				const totalValuePending = (
 					lakhPending +
 					ethValueAddedPending * 2640 +

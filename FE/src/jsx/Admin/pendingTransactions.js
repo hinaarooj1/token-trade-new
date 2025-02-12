@@ -74,7 +74,11 @@ const PendingTransactions = () => {
       if (allTransactions.success) {
         // setData(filter)
         // let val = response.data.bpi.USD.rate.replace(/,/g, "");
-        setliveBtc(96075.95);
+        if (allTransactions && allTransactions.btcPrice && allTransactions.btcPrice.quote && allTransactions.btcPrice.quote.USD) {
+          setliveBtc(allTransactions.btcPrice.quote.USD.price);
+        } else {
+          setliveBtc(96075.25);
+        }
         console.log("allTransactions:as ", allTransactions.Transaction);
         setUserTransactions(allTransactions.Transaction.reverse());
 

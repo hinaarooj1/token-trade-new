@@ -1,6 +1,7 @@
 let userCoins = require("../models/userCoins");
 const errorHandler = require("../utils/errorHandler");
 
+const axios = require('axios');
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const jwtToken = require("../utils/jwtToken");
 const userModel = require("../models/userModel");
@@ -69,27 +70,50 @@ exports.addCoins = catchAsyncErrors(async (req, res, next) => {
 exports.getCoins = catchAsyncErrors(async (req, res, next) => {
   let { id } = req.params;
   let getCoin = await userCoins.findOne({ user: id });
+  let response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC&convert=USD', {
+    headers: {
+      'X-CMC_PRO_API_KEY': process.env.BTC_KEY,
+    },
+  });
+  let btcPrice = response.data.data.BTC
   res.status(200).send({
     success: true,
     msg: "Done",
     getCoin,
+    btcPrice
   });
+
 });
 exports.getUserCoin = catchAsyncErrors(async (req, res, next) => {
   let { id } = req.params;
   let getCoin = await userCoins.findOne({ user: id });
+  let response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC&convert=USD', {
+    headers: {
+      'X-CMC_PRO_API_KEY': process.env.BTC_KEY,
+    },
+  });
+  let btcPrice = response.data.data.BTC
   res.status(200).send({
     success: true,
     msg: "Done",
     getCoin,
+    btcPrice
   });
 });
 exports.getCoinsUser = catchAsyncErrors(async (req, res, next) => {
   let { id } = req.params;
+  console.log('id: ', id);
+  let response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC&convert=USD', {
+    headers: {
+      'X-CMC_PRO_API_KEY': process.env.BTC_KEY,
+    },
+  });
+  let btcPrice = response.data.data.BTC
   let getCoin = await userCoins.findOne({ user: id });
   res.status(200).send({
     success: true,
-    msg: "Done",
+    msg: "Dones",
+    btcPrice,
     getCoin,
   });
 });
@@ -506,11 +530,17 @@ exports.createUserTransactionDepositSwap = catchAsyncErrors(
 // });
 exports.getTransactions = catchAsyncErrors(async (req, res, next) => {
   let Transaction = await userCoins.find();
-
+  let response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC&convert=USD', {
+    headers: {
+      'X-CMC_PRO_API_KEY': process.env.BTC_KEY,
+    },
+  });
+  let btcPrice = response.data.data.BTC
   res.status(200).send({
     success: true,
     msg: " ",
     Transaction,
+    btcPrice
   });
 });
 exports.getEachUser = catchAsyncErrors(async (req, res, next) => {

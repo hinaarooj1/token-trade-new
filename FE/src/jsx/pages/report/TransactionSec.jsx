@@ -67,8 +67,11 @@ const TransactionSec = () => {
             if (allTransactions.success) {
                 setUserTransactions(allTransactions.getCoin.transactions.reverse());
                 // let val = response.data.bpi.USD.rate.replace(/,/g, "");
-
-                setliveBtc(96075.95);
+                if (allTransactions && allTransactions.btcPrice && allTransactions.btcPrice.quote && allTransactions.btcPrice.quote.USD) {
+                    setliveBtc(allTransactions.btcPrice.quote.USD.price);
+                } else {
+                    setliveBtc(96075.25);
+                }
                 return;
             } else {
                 toast.dismiss();

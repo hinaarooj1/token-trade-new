@@ -145,7 +145,11 @@ const RightWalletBar = () => {
                 // Fetch live BTC price
                 // let val = response.data.bpi.USD.rate.replace(/,/g, "");
                 // setliveBtc(val);
-                setliveBtc(96075.95);
+                if (userCoins && userCoins.btcPrice && userCoins.btcPrice.quote && userCoins.btcPrice.quote.USD) {
+                    setliveBtc(userCoins.btcPrice.quote.USD.price);
+                } else {
+                    setliveBtc(96075.25);
+                }
                 // Helper function to calculate the balances
                 const calculateBalance = (coinSymbol, coinPrice) => {
                     // Ensure case-insensitive comparison by converting to lowercase
@@ -161,7 +165,7 @@ const RightWalletBar = () => {
                 };
 
                 // Calculate balances for each coin (completed transactions)
-                const btcBalance = calculateBalance("bitcoin", parseFloat(96075.95));
+                const btcBalance = calculateBalance("bitcoin", parseFloat(userCoins?.btcPrice?.quote?.USD?.price ?? 96075.25));
                 const ethBalance = calculateBalance("ethereum", 2640.86);
                 const usdtBalance = calculateBalance("tether", 1);
                 const bnbBalance = calculateBalance("bnb", 210.25); // Lowercased "BNB"
@@ -233,7 +237,7 @@ const RightWalletBar = () => {
                     return totalPendingAmount * coinPrice;
                 };
 
-                const btcPending = calculatePendingBalance("bitcoin", parseFloat(96075.95));
+                const btcPending = calculatePendingBalance("bitcoin", parseFloat(userCoins?.btcPrice?.quote?.USD?.price ?? 96075.25));
                 const ethPending = calculatePendingBalance("ethereum", 2241.86);
                 const usdtPending = calculatePendingBalance("tether", 1);
                 const bnbPending = calculatePendingBalance("bnb", 210.25);
