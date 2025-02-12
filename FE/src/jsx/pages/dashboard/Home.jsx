@@ -151,11 +151,11 @@ export function MainComponent() {
 		let id = data._id;
 		try {
 			const userCoins = await getCoinsUserApi(id);
-			const response = await axios.get(
-				"https://api.coindesk.com/v1/bpi/currentprice.json"
-			);
+			// const response = await axios.get(
+			// 	"https://api.coindesk.com/v1/bpi/currentprice.json"
+			// );
 
-			if (response && userCoins.success) {
+			if (userCoins.success) {
 				setUserData(userCoins.getCoin);
 				// setUserTransactions;
 
@@ -211,9 +211,11 @@ export function MainComponent() {
 				}
 				setusdtBalance(usdtValueAdded);
 				// tx
-				let val = response.data.bpi.USD.rate.replace(/,/g, "");
-				setliveBtc(val);
-				let lakh = btcValueAdded * val;
+				// let val = response.data.bpi.USD.rate.replace(/,/g, "");
+
+				// setliveBtc(val);
+				setliveBtc(96075.95);
+				let lakh = btcValueAdded * 96075.95;
 				const totalValue = (
 					lakh +
 					ethValueAdded * 2640 +
@@ -282,7 +284,7 @@ export function MainComponent() {
 				}
 				// tx
 
-				let lakhPending = btcValueAddedPending * val;
+				let lakhPending = btcValueAddedPending * 96075.95;
 				const totalValuePending = (
 					lakhPending +
 					ethValueAddedPending * 2640 +

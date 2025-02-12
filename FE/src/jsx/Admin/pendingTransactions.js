@@ -67,14 +67,14 @@ const PendingTransactions = () => {
 
   const getTransactions = async () => {
     try {
-      const response = await axios.get(
-        "https://api.coindesk.com/v1/bpi/currentprice.json"
-      );
+      // const response = await axios.get(
+      //   "https://api.coindesk.com/v1/bpi/currentprice.json"
+      // );
       const allTransactions = await getTransactionsApi();
-      if (response && allTransactions.success) {
+      if (allTransactions.success) {
         // setData(filter)
-        let val = response.data.bpi.USD.rate.replace(/,/g, "");
-        setliveBtc(val);
+        // let val = response.data.bpi.USD.rate.replace(/,/g, "");
+        setliveBtc(96075.95);
         console.log("allTransactions:as ", allTransactions.Transaction);
         setUserTransactions(allTransactions.Transaction.reverse());
 

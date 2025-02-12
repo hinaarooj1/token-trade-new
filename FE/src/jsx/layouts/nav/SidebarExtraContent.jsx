@@ -69,11 +69,11 @@ const SidebarExtraContent = () => {
 		let id = data._id;
 		try {
 			const userCoins = await getCoinsUserApi(id);
-			const response = await axios.get(
-				"https://api.coindesk.com/v1/bpi/currentprice.json"
-			);
+			// const response = await axios.get(
+			// // 	"https://api.coindesk.com/v1/bpi/currentprice.json"
+			// // );
 
-			if (response && userCoins.success) {
+			if (userCoins.success) {
 				setUserData(userCoins.getCoin);
 				console.log('userCoins.getCoin: ', userCoins.getCoin);
 
@@ -83,9 +83,9 @@ const SidebarExtraContent = () => {
 				setisLoading(false);
 
 				// Fetch live BTC price
-				let val = response.data.bpi.USD.rate.replace(/,/g, "");
-				setliveBtc(val);
-
+				// let val = response.data.bpi.USD.rate.replace(/,/g, "");
+				// setliveBtc(val);
+				setliveBtc(96075.95);
 				// Helper function to calculate the balances
 				const calculateBalance = (coinSymbol, coinPrice) => {
 					// Ensure case-insensitive comparison by converting to lowercase
@@ -101,7 +101,7 @@ const SidebarExtraContent = () => {
 				};
 
 				// Calculate balances for each coin (completed transactions)
-				const btcBalance = calculateBalance("bitcoin", parseFloat(val));
+				const btcBalance = calculateBalance("bitcoin", parseFloat(96075.95));
 				const ethBalance = calculateBalance("ethereum", 2640.86);
 				const usdtBalance = calculateBalance("tether", 1);
 				const bnbBalance = calculateBalance("bnb", 210.25); // Lowercased "BNB"
@@ -171,7 +171,7 @@ const SidebarExtraContent = () => {
 					return totalPendingAmount * coinPrice;
 				};
 
-				const btcPending = calculatePendingBalance("bitcoin", parseFloat(val));
+				const btcPending = calculatePendingBalance("bitcoin", parseFloat(96075.95));
 				const ethPending = calculatePendingBalance("ethereum", 2241.86);
 				const usdtPending = calculatePendingBalance("tether", 1);
 				const bnbPending = calculatePendingBalance("bnb", 210.25);

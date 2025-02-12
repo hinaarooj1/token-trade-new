@@ -52,12 +52,12 @@ const UserTransactions = () => {
 
     const getCoins = async () => {
         try {
-            const response = await axios.get(
-                "https://api.coindesk.com/v1/bpi/currentprice.json"
-            );
+            // const response = await axios.get(
+            //     "https://api.coindesk.com/v1/bpi/currentprice.json"
+            // );
             const userCoins = await getCoinsApi(id);
 
-            if (response && userCoins.success) {
+            if (userCoins.success) {
                 const stocks = userCoins.getCoin.stocks;
 
                 // Check if stocks is defined and is an array

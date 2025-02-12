@@ -73,12 +73,12 @@ const Swap = () => {
     const getCoinsPrice = async () => {
         try {
             const [response, ethResponse] = await Promise.all([
-                axios.get("https://api.coindesk.com/v1/bpi/currentprice.json"),
+                // axios.get("https://api.coindesk.com/v1/bpi/currentprice.json"),
                 axios.get("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT"),
             ]);
 
             if (response && response.data) {
-                let val = response.data.bpi.USD.rate.replace(/,/g, "");
+                let val = 96075.95;
                 setLiveBtcPrice(parseFloat(val));
                 setliveBtc(val);
                 updateExpectedRate();

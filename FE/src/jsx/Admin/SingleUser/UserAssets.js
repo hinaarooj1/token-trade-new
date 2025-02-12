@@ -125,14 +125,15 @@ const UserAssets = () => {
 
   const getCoins = async () => {
     try {
-      const response = await axios.get(
-        "https://api.coindesk.com/v1/bpi/currentprice.json"
-      );
+      // const response = await axios.get(
+      //   "https://api.coindesk.com/v1/bpi/currentprice.json"
+      // );
       const userCoins = await getCoinsApi(id);
-      if (response && userCoins.success) {
+      if (userCoins.success) {
         setisLoading(false);
-        let val = response.data.bpi.USD.rate.replace(/,/g, "");
-        setliveBtc(val);
+        // let val = response.data.bpi.USD.rate.replace(/,/g, "");
+        // setliveBtc(val);
+        setliveBtc(96075.95);
         setuserCoins(userCoins)
         console.log('userCoins.getCoin.additionalCoins: ', userCoins.getCoin.additionalCoins);
         setnewUserCoins(userCoins.getCoin.additionalCoins)

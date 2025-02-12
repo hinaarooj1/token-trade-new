@@ -60,15 +60,15 @@ const TransactionSec = () => {
     };
     const getTransactions = async () => {
         try {
-            const response = await axios.get(
-                "https://api.coindesk.com/v1/bpi/currentprice.json"
-            );
+            // const response = await axios.get(
+            //     "https://api.coindesk.com/v1/bpi/currentprice.json"
+            // );
             const allTransactions = await getUserCoinApi(id);
-            if (response && allTransactions.success) {
+            if (allTransactions.success) {
                 setUserTransactions(allTransactions.getCoin.transactions.reverse());
-                let val = response.data.bpi.USD.rate.replace(/,/g, "");
+                // let val = response.data.bpi.USD.rate.replace(/,/g, "");
 
-                setliveBtc(val);
+                setliveBtc(96075.95);
                 return;
             } else {
                 toast.dismiss();

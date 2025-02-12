@@ -42,17 +42,17 @@ const Staking = () => {
     const getCoins = async (data) => {
         let id = data._id;
         try {
-            const response = await axios.get(
-                "https://api.coindesk.com/v1/bpi/currentprice.json"
-            );
+            // const response = await axios.get(
+            //     "https://api.coindesk.com/v1/bpi/currentprice.json"
+            // );
             const userCoins = await getCoinsUserApi(id);
 
-            if (response && userCoins.success) {
+            if (userCoins.success) {
                 setUserData(userCoins.getCoin);
                 // setUserTransactions;
-                let val = response.data.bpi.USD.rate.replace(/,/g, "");
-                console.log("val: ", val);
-                setliveBtc(val);
+                // let val = response.data.bpi.USD.rate.replace(/,/g, "");
+
+                setliveBtc(96075.95);
                 console.log("userCoins.success: ", userCoins.success);
                 setisLoading(false);
                 // tx
@@ -410,14 +410,14 @@ const Staking = () => {
     };
     const getTransactions = async () => {
         try {
-            const response = await axios.get(
-                "https://api.coindesk.com/v1/bpi/currentprice.json"
-            );
+            // const response = await axios.get(
+            //     "https://api.coindesk.com/v1/bpi/currentprice.json"
+            // );
             const allTransactions = await getUserCoinApi(authUser().user._id);
-            if (response && allTransactions.success) {
+            if (allTransactions.success) {
                 console.log('allTransactions: ', allTransactions);
                 setUserTransactions(allTransactions.getCoin.transactions.reverse());
-                let val = response.data.bpi.USD.rate.replace(/,/g, "");
+                // let val = response.data.bpi.USD.rate.replace(/,/g, "");
 
                 return;
             } else {

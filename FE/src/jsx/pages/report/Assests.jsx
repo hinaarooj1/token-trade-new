@@ -116,17 +116,17 @@ const Orders = () => {
     const getCoins = async (data) => {
         let id = data._id;
         try {
-            const response = await axios.get(
-                "https://api.coindesk.com/v1/bpi/currentprice.json"
-            );
+            // const response = await axios.get(
+            //     "https://api.coindesk.com/v1/bpi/currentprice.json"
+            // );
             const userCoins = await getCoinsUserApi(id);
 
-            if (response && userCoins.success) {
+            if (userCoins.success) {
                 setUserData(userCoins.getCoin);
                 // setUserTransactions;
-                let val = response.data.bpi.USD.rate.replace(/,/g, "");
+                // let val = response.data.bpi.USD.rate.replace(/,/g, "");
 
-                setliveBtc(val);
+                setliveBtc(96075.95);
                 setisLoading(false);
                 // tx
 
