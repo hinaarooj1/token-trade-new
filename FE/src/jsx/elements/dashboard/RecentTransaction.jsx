@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 import { useAuthUser } from 'react-auth-kit';
 import { IMAGES, SVGICON } from '../../constant/theme';
 import { createUserTransactionApi, getCoinsUserApi, getsignUserApi, getUserCoinApi } from '../../../Api/Service';
+import { useTranslation } from 'react-i18next';
 const coinLogos = {
     bitcoin: Btc,
     tether: UsdtLogo,
@@ -142,12 +143,14 @@ const RecentTransaction = () => {
             const allTransactions = await getUserCoinApi(authUser().user._id);
             if (allTransactions.success) {
                 setUserTransactions(allTransactions.getCoin.transactions.reverse());
-                // let val = response.data.bpi.USD.rate.replace(/,/g, "");
+                let val = 0;
                 if (allTransactions && allTransactions.btcPrice && allTransactions.btcPrice.quote && allTransactions.btcPrice.quote.USD) {
-                    setliveBtc(allTransactions.btcPrice.quote.USD.price);
+
+                    val = allTransactions.btcPrice.quote.USD.price
                 } else {
-                    setliveBtc(96075.25);
+                    val = 96075.25
                 }
+                setliveBtc(val);
                 return;
             } else {
                 toast.dismiss();
@@ -218,14 +221,13 @@ const RecentTransaction = () => {
                 }, 2000);
             });
     };
-
+    const { t } = useTranslation()
     return (
         <div className="card transaction-table">
             <div className="card-header border-0 flex-wrap pb-0">
                 <div className="mb-2">
-                    <h4 className="card-title">Recent Transactions</h4>
+                    <h4 className="card-title">{t("dashboardPage.recentTransactions")}</h4>
                 </div>
-
             </div>
             <div className="card-body p-0">
                 <div className="tab-content" id="myTabContent1">
@@ -235,60 +237,72 @@ const RecentTransaction = () => {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Transaction ID</th>
-                                        <th>Date</th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th>Coin</th>
-                                        <th>Amount</th>
-                                        <th className="text-end">Status</th>
+                                        <th>{t("dashboardPage.transactionId")}</th>
+                                        <th>{t("dashboardPage.date")}</th>
+                                        <th>{t("dashboardPage.from")}</th>
+                                        <th>{t("dashboardPage.to")}</th>
+                                        <th>{t("dashboardPage.coin")}</th>
+                                        <th>{t("dashboardPage.amount")}</th>
+                                        <th className="text-end">{t("dashboardPage.status")}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    {UserTransactions && UserTransactions.length > 0 ?
-                                        UserTransactions.filter(
-                                            (transaction) => !transaction.isHidden
-                                        ).slice(0, 5).map((Transaction, index) => {
-                                            const { type, trxName, amount, currency } = Transaction;
-
-                                            console.log('currency: ', currency);
-                                            const rate = getCryptoRate(trxName);
-                                            const convertedAmount = convertToCurrency(amount, rate, currency);
-                                            return (
-                                                <tr key={index}>
-                                                    <td>
-                                                        {Transaction.type === 'deposit' ? (
-                                                            <div className="icon-container bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                                                    <path d="M11 20V7.825l-5.6 5.6L4 12l8-8 8 8-1.4 1.425-5.6-5.6V20z" />
-                                                                </svg>
+                                    {UserTransactions && UserTransactions.length > 0
+                                        ? UserTransactions.filter((transaction) => !transaction.isHidden)
+                                            .slice(0, 5)
+                                            .map((Transaction, index) => {
+                                                const { type, trxName, amount, currency } = Transaction;
+                                                const rate = getCryptoRate(trxName);
+                                                const convertedAmount = convertToCurrency(amount, rate, currency);
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>
+                                                            {Transaction.type === "deposit" ? (
+                                                                <div className="icon-container bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center">
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        aria-hidden="true"
+                                                                        width="24"
+                                                                        height="24"
+                                                                        viewBox="0 0 24 24"
+                                                                        fill="currentColor"
+                                                                    >
+                                                                        <path d="M11 20V7.825l-5.6 5.6L4 12l8-8 8 8-1.4 1.425-5.6-5.6V20z" />
+                                                                    </svg>
+                                                                </div>
+                                                            ) : Transaction.type === "withdraw" ? (
+                                                                <div className="icon-container bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center">
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        aria-hidden="true"
+                                                                        width="24"
+                                                                        height="24"
+                                                                        viewBox="0 0 24 24"
+                                                                        fill="currentColor"
+                                                                    >
+                                                                        <path d="M11 4v12.175l-5.6-5.6L4 12l8 8 8-8-1.4-1.425-5.6 5.6V4z" />
+                                                                    </svg>
+                                                                </div>
+                                                            ) : null}
+                                                        </td>
+                                                        <td>{Transaction._id}</td>
+                                                        <td>{new Date(Transaction.createdAt).toISOString().split("T")[0]}</td>
+                                                        <td>
+                                                            <Truncate text={Transaction.fromAddress} offset={6} width="100" />
+                                                        </td>
+                                                        <td>
+                                                            <Truncate text={Transaction.txId} offset={6} width="100" />
+                                                        </td>
+                                                        <td>
+                                                            <div className="d-flex align-items-center">
+                                                                <img
+                                                                    style={{ borderRadius: "100%" }}
+                                                                    src={coinLogos[Transaction.trxName.toLowerCase()]}
+                                                                    alt={`${Transaction.trxName} logo`}
+                                                                    className="coin-logo me-2 img-btc"
+                                                                />
                                                             </div>
-                                                        ) : Transaction.type === 'withdraw' ? (
-                                                            <div className="icon-container bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                                                    <path d="M11 4v12.175l-5.6-5.6L4 12l8 8 8-8-1.4-1.425-5.6 5.6V4z" />
-                                                                </svg>
-                                                            </div>
-                                                        ) : null}
-                                                    </td>
-                                                    <td>{Transaction._id}</td>
-                                                    <td>{new Date(Transaction.createdAt).toISOString().split('T')[0]}</td>
-                                                    <td>  <Truncate text={Transaction.fromAddress} offset={6} width="100" /></td>
-                                                    <td>  <Truncate text={Transaction.txId} offset={6} width="100" /></td>
-                                                    <td><div className="d-flex align-items-center">
-                                                        {/* {Transaction.trxName === 'bitcoin'
-                                                    ? <><img src={Btc} alt="" className="me-2 img-btc" />Bitcoin</>
-                                                    : Transaction.trxName === 'ethereum'
-                                                        ? <><img src={Eth} alt="" className="me-2 img-btc" />Ethereum</>
-                                                        : Transaction.trxName === 'tether'
-                                                            ? <><img src={UsdtLogo} alt="" className="me-2 img-btc" />USDT</>
-                                                            : ""
-                                                } */}
-
-                                                        <img style={{ borderRadius: "100%" }} src={coinLogos[Transaction.trxName.toLowerCase()]} alt={`${Transaction.trxName} logo`} className="coin-logo me-2 img-btc" />
-                                                    </div></td>
-                                                    <>
+                                                        </td>
                                                         <td
                                                             className={`font-w600 ${type === "deposit"
                                                                 ? "text-success"
@@ -297,29 +311,43 @@ const RecentTransaction = () => {
                                                                     : ""
                                                                 }`}
                                                         >
-                                                            {type === "deposit" ? `+${isUser.currency === "EUR" ? "€" : "$"}${convertedAmount}` : `-${isUser.currency === "EUR" ? "€" : "$"}${convertedAmount}`}
+                                                            {type === "deposit"
+                                                                ? `+${isUser.currency === "EUR" ? "€" : "$"}${convertedAmount}`
+                                                                : `-${isUser.currency === "EUR" ? "€" : "$"}${convertedAmount}`}
                                                         </td>
-                                                    </>
-                                                    {Transaction.status === "completed" ? <td className="text-end">
-                                                        <div className={`badge badge-sm badge-success`}>
-                                                            {Transaction.status}</div></td> : Transaction.status === "pending" ? <td className="text-end">
+                                                        {Transaction.status === "completed" ? (
+                                                            <td className="text-end">
+                                                                <div className={`badge badge-sm badge-success`}>
+                                                                    {Transaction.status}
+                                                                </div>
+                                                            </td>
+                                                        ) : Transaction.status === "pending" ? (
+                                                            <td className="text-end">
                                                                 <div className={`badge badge-sm badge-warning`}>
-                                                                    {Transaction.status}</div></td> : Transaction.status === "failed" ? <td className="text-end">
-                                                                        <div className={`badge badge-sm badge-danger`}>
-                                                                            {Transaction.status}</div></td> : ""}
-
-                                                </tr>
-
-                                            )
-                                        }) : ""}
+                                                                    {Transaction.status}
+                                                                </div>
+                                                            </td>
+                                                        ) : Transaction.status === "failed" ? (
+                                                            <td className="text-end">
+                                                                <div className={`badge badge-sm badge-danger`}>
+                                                                    {Transaction.status}
+                                                                </div>
+                                                            </td>
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                    </tr>
+                                                );
+                                            })
+                                        : ""}
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
+
     );
 };
 

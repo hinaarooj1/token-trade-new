@@ -1,4 +1,4 @@
-import logo from "../../../assets/images/img/Logo.png";
+import logo from "../../../assets/newlogo/logo.png";
 import menu_btn_1 from "../../../assets/images/icons/menu_btn_1.png";
 import close_2 from "../../../assets/images/icons/close_2.png";
 import promo_img from "../../../assets/images/img/promo_img.svg";
@@ -24,15 +24,18 @@ import youtube from "../../../assets/images/icons/youtube.svg";
 import twitter from "../../../assets/images/icons/twitter.svg";
 import linkedin from "../../../assets/images/icons/linkedin.svg";
 import modal_close from "../../../assets/images/icons/modal_close.png";
+import { useTranslation } from 'react-i18next';
 
-import React, { useState } from "react";
+import franceflg from '../../../assets/images/france.png'
+import usflg from '../../../assets/images/united-states.png'
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import "./style.css";
 
 
-
 const Home = () => {
+
   const [Bar, setBar] = useState(false);
   const [Nav, setNav] = useState(false);
   let openMenu = () => {
@@ -48,6 +51,32 @@ const Home = () => {
 
     header.classList.toggle("sticky", window.scrollY > 15);
   });
+
+  // 
+  const [activeTab, setActiveTab] = useState(null);
+
+  const toggleTab = (tabIndex) => {
+    setActiveTab((prev) => (prev === tabIndex ? null : tabIndex));
+  };
+  // 
+  const { i18n, t } = useTranslation();
+  const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
+
+  useEffect(() => {
+    i18n.changeLanguage(language); // Apply stored language
+  }, [language, i18n]);
+
+  const handleLanguageChange = (lang) => {
+    setLanguage(lang);
+    setIsOpen(false);
+    localStorage.setItem("language", lang);
+    i18n.changeLanguage(lang);
+  };
+  //  
+  const [isOpen, setIsOpen] = useState(false); // State to toggle dropdown visibility
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen); // Toggle dropdown visibility on click
+  };
 
   return (
     <div className="admin">
@@ -83,6 +112,34 @@ const Home = () => {
                     </ul>
                   </nav>
                   <div className="header__reg">
+                    <div className="language-dropdown">
+                      <button className="language-button" onClick={toggleDropdown}>
+                        <img
+                          src={language === "en" ? usflg : franceflg}
+                          alt="Flag"
+                          className="flag-icon"
+                        />
+                        {language === "en" ? "English" : "Français"}
+                      </button>
+                      {isOpen && (
+                        <div className="language-dropdown-menu">
+                          <button
+                            onClick={() => handleLanguageChange("en")}
+                            className="language-option"
+                          >
+                            <img src={usflg} alt="English" className="flag-icon" />
+                            English
+                          </button>
+                          <button
+                            onClick={() => handleLanguageChange("fr")}
+                            className="language-option"
+                          >
+                            <img src={franceflg} alt="French" className="flag-icon" />
+                            Français
+                          </button>
+                        </div>
+                      )}
+                    </div>
                     <Link to="/auth/login">Login</Link>
 
                     <Link to="/auth/signup" className="linka button">
@@ -107,19 +164,24 @@ const Home = () => {
               <div className="promo__wrapper">
                 <div className="promo__content">
                   <div className="promo__sale">
-                    <span>Exchange Plus Wallet:</span>
-                    Your Comprehensive Crypto Hub
+                    <span>
+                      {t("homePage.exchangePlus")}
+                    </span>
+                    {t("homePage.cryptoHub")}
+
                   </div>
                   <h1 className="promo__header">
-                    Unlocking the Future of Finance
+
+                    {t("homePage.cryptoHub")}
+
                   </h1>
                   <div className="promo__descr">
-                    with over $30 billion in transactions. Trusted by Countless
-                    Wallets for Crypto Transactions Worth Billions!
+                    {t("homePage.overThirty")}
+
                   </div>
                   <div className="promo__link">
                     <a href="#" className="button button_try btn-modal">
-                      Try for FREE
+                      {"  "}{t("homePage.tryFree")}
                       <span>&gt;</span>
                     </a>
                   </div>
@@ -155,25 +217,19 @@ const Home = () => {
                   <div className="img">
                     <img src={Bar_Chart} alt="diagram icon" />
                   </div>
-                  <div className="text">
-                    $3B <span>Currency Exchanged</span>
-                  </div>
+                  <div className="text">{t("homePage.currencyExchanged")}</div>
                 </div>
                 <div className="features__number wow animate__animated animate__fadeIn">
                   <div className="img">
                     <img src={Person} alt="person icon" />
                   </div>
-                  <div className="text">
-                    250K+ <span>Trusted Wallets</span>
-                  </div>
+                  <div className="text">{t("homePage.trustedWallets")}</div>
                 </div>
                 <div className="features__number wow animate__animated animate__fadeIn">
                   <div className="img">
                     <img src={Earth} alt="earth icon" />
                   </div>
-                  <div className="text">
-                    112 <span>Countries Supported</span>
-                  </div>
+                  <div className="text">{t("homePage.countriesSupported")}</div>
                 </div>
               </div>
               <div className="features__content">
@@ -185,75 +241,65 @@ const Home = () => {
                   />
                 </div>
                 <div className="features__text">
-                  <h2 className="features__heading">Why choose us?</h2>
-                  <p className="features__descr">
-                    Embark on the Future of Cryptocurrency: A Platform without
-                    Financial Borders, Hidden Fees, or Fake Reviews.
-                  </p>
+                  <h2 className="features__heading">{t("homePage.whyChooseUs")}</h2>
+                  <p className="features__descr">{t("homePage.futureCrypto")}</p>
                 </div>
               </div>
             </div>
           </section>
+
           <section className="calculating">
             <div className="container">
               <h2 className="calculating__title wow animate__animated animate__fadeIn">
-                Crypto Mining: Estimate Your Potential Earnings
+                {t("homePage.cryptoMiningTitle")}
               </h2>
               <p className="calculating__descr wow animate__animated animate__slideInLeft">
-                Let's Assess Your Hash Rate to Determine Your Potential Earnings
-                for Today's Crypto Mining Activities
+                {t("homePage.cryptoMiningDescr")}
               </p>
               <div className="calculating__calc">
                 <form className="calculating__form">
                   <input
                     name="rate"
                     type="text"
-                    placeholder="Enter your hash rate"
+                    placeholder={t("homePage.enterHashRate")}
                     required
                   />
                   <select name="select" id="select" required>
-                    <option value="TH/s">TH/s</option>
-                    <option value="Second option">Second option</option>
-                    <option value="Third option">Third option</option>
+                    <option value="TH/s">{t("homePage.thPerSecond")}</option>
+                    <option value="Second option">{t("homePage.secondOption")}</option>
+                    <option value="Third option">{t("homePage.thirdOption")}</option>
                   </select>
-                  <button className="button button_classic">Calculate</button>
+                  <button className="button button_classic">{t("homePage.calculate")}</button>
                 </form>
                 <div className="calculating__info">
                   <div className="calculating__revenue-text">
-                    ESTIMATED 24 HOUR REVENUE:
+                    {t("homePage.estimatedRevenue")}
                   </div>
                   <div className="calculating__revenue-val">
-                    0.055 130 59 ETH <span>($1275)</span>
+                    {t("homePage.revenueValue")} <span>{t("homePage.revenueInUSD")}</span>
                   </div>
                   <div className="calculating__revenue-descr">
-                    Revenue will change based on mining difficulty and Ethereum
-                    price.
+                    {t("homePage.revenueNotice")}
                   </div>
                 </div>
               </div>
             </div>
           </section>
+
           <section id="products" className="options">
             <div className="container">
               <h2 className="options__title wow animate__animated animate__fadeIn">
-                Safely Trade and Access High-Growth <br /> Cryptocurrencies
+                {t("homePage.safeTradeTitle")}
               </h2>
               <div className="options__wrapper">
                 <div className="options__item wow animate__animated animate__bounceInLeft">
                   <div className="options__item-icon">
                     <img src={btc} alt="btc" />
                   </div>
-                  <div className="options__item-title">Bitcoin - BTC</div>
-                  <div className="options__item-descr">
-                    A pioneering digital currency with a transparent record of
-                    transactions.
-                  </div>
-
-                  <a
-                    href="#"
-                    className="button button_try options__item-btn btn-modal"
-                  >
-                    Start mining
+                  <div className="options__item-title">{t("homePage.bitcoinTitle")}</div>
+                  <div className="options__item-descr">{t("homePage.bitcoinDescr")}</div>
+                  <a href="#" className="button button_try options__item-btn btn-modal">
+                    {t("homePage.startMining")}
                     <span>&gt;</span>
                   </a>
                 </div>
@@ -261,17 +307,10 @@ const Home = () => {
                   <div className="options__item-icon">
                     <img src={eth} alt="eth" />
                   </div>
-                  <div className="options__item-title">Ethereum - ETH</div>
-                  <div className="options__item-descr">
-                    Utilizes blockchain technology for decentralized digital
-                    applications.
-                  </div>
-
-                  <a
-                    href="#"
-                    className="button button_try options__item-btn btn-modal"
-                  >
-                    Start mining
+                  <div className="options__item-title">{t("homePage.ethereumTitle")}</div>
+                  <div className="options__item-descr">{t("homePage.ethereumDescr")}</div>
+                  <a href="#" className="button button_try options__item-btn btn-modal">
+                    {t("homePage.startMining")}
                     <span>&gt;</span>
                   </a>
                 </div>
@@ -279,38 +318,30 @@ const Home = () => {
                   <div className="options__item-icon">
                     <img src={ltc} alt="ltc" />
                   </div>
-                  <div className="options__item-title">Litecoin - LTC</div>
-                  <div className="options__item-descr">
-                    Facilitating instant payments globally. Join the Litecoin
-                    community.
-                  </div>
-
-                  <a
-                    href="#"
-                    className="button button_try options__item-btn btn-modal"
-                  >
-                    Start mining
+                  <div className="options__item-title">{t("homePage.litecoinTitle")}</div>
+                  <div className="options__item-descr">{t("homePage.litecoinDescr")}</div>
+                  <a href="#" className="button button_try options__item-btn btn-modal">
+                    {t("homePage.startMining")}
                     <span>&gt;</span>
                   </a>
                 </div>
               </div>
             </div>
           </section>
+
           <section id="about" className="benefits">
             <div className="container">
               <h2 className="benefits__title wow animate__animated animate__fadeIn">
-                Analyze Market Sentiments, Manage Your Portfolio, and Operate the
-                Infrastructure of Your Preference
+                {t("homePage.analyzeMarketTitle")}
               </h2>
               <div className="benefits__wrapper">
                 <div className="benefits__row">
                   <div className="benefits__text">
                     <h3 className="benefits__name wow animate__animated animate__fadeIn">
-                      Invest Wisely:
+                      {t("homePage.investWisely")}
                     </h3>
                     <div className="benefits__descr wow animate__animated animate__slideInLeft">
-                      Access Comprehensive Statistical Insights into Buyer and
-                      Seller Behavior to Make Informed Decisions.
+                      {t("homePage.investWiselyDescr")}
                     </div>
                   </div>
                   <div className="benefits__graph">
@@ -332,16 +363,16 @@ const Home = () => {
                     <div className="benefits__graph-extra">
                       <div className="wow animate__animated animate__fadeIn">
                         <span>
-                          Increase in <br /> Trade
+                          {t("homePage.increaseTrade")}
                         </span>
                         <span>
                           +75% <img src={arrow_top} alt="arrow" />
                         </span>
-                        <span>Sell option</span>
+                        <span>{t("homePage.sellOption")}</span>
                       </div>
                       <div className="wow animate__animated animate__fadeIn">
                         <span>$15.32</span>
-                        <span>Price in dollar</span>
+                        <span>{t("homePage.priceDollar")}</span>
                       </div>
                     </div>
                   </div>
@@ -356,97 +387,93 @@ const Home = () => {
                   </div>
                   <div className="benefits__text">
                     <h3 className="benefits__name wow animate__animated animate__fadeIn">
-                      Comprehensive Statistics:
+                      {t("homePage.comprehensiveStats")}
                     </h3>
                     <div className="benefits__descr wow animate__animated animate__slideInRight">
-                      Access Real-Time Mining Data Anywhere, Anytime, and Select
-                      Your Preferred Mining Pools with Confidence.
+                      {t("homePage.comprehensiveStatsDescr")}
                     </div>
                   </div>
                 </div>
                 <div className="benefits__row">
                   <div className="benefits__text">
                     <h3 className="benefits__name wow animate__animated animate__fadeIn">
-                      Maximize Your Profit and Monitor Your Investments
-                      Effectively
+                      {t("homePage.maximizeProfit")}
                     </h3>
                     <div className="benefits__descr wow animate__animated animate__slideInLeft">
-                      Utilize Advanced Analytical Tools and Clear TradingView
-                      Charts to Track Current and Historical Investment
-                      Performance.
+                      {t("homePage.maximizeProfitDescr")}
                     </div>
                   </div>
                   <div className="benefits__table">
                     <div className="benefits__table-row benefits__table-head">
                       <div className="benefits__table-col" />
-                      <div className="benefits__table-col">Price</div>
-                      <div className="benefits__table-col">Change</div>
-                      <div className="benefits__table-col">Volume (24h)</div>
-                    </div>
-                    <div className="benefits__table-row">
-                      <div className="benefits__table-col benefits__table-opt">
-                        <img src={btc} alt="bitcoin" />
-                        <h4>
-                          BTC <br /> <span>Bitcoin</span>
-                        </h4>
-                      </div>
-                      <div className="benefits__table-col">$6750</div>
-                      <div className="benefits__table-col benefits__table-incr">
-                        <img src={increase} alt />
-                        +7.3%
-                      </div>
-                      <div className="benefits__table-col">$3420214</div>
-                    </div>
-                    <div className="benefits__table-row">
-                      <div className="benefits__table-col benefits__table-opt">
-                        <img src={eth} alt="ethereum" />
-                        <h4>
-                          ETH <br /> <span>Ethereum</span>
-                        </h4>
-                      </div>
-                      <div className="benefits__table-col">$156.83</div>
-                      <div className="benefits__table-col benefits__table-decr">
-                        <img src={decrease} alt />
-                        -0.9%
-                      </div>
-                      <div className="benefits__table-col">$1812350</div>
-                    </div>
-                    <div className="benefits__table-row">
-                      <div className="benefits__table-col benefits__table-opt">
-                        <img src={ltc} alt="bitcoin" />
-                        <h4>
-                          LTC <br /> <span>Litecoin</span>
-                        </h4>
-                      </div>
-                      <div className="benefits__table-col">$8535</div>
-                      <div className="benefits__table-col benefits__table-incr">
-                        <img src={increase} alt />
-                        +8.2%
-                      </div>
-                      <div className="benefits__table-col">$5820399</div>
+                      <div className="benefits__table-col">{t("homePage.price")}</div>
+                      <div className="benefits__table-col">{t("homePage.change")}</div>
+                      <div className="benefits__table-col">{t("homePage.volume")}</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </section>
+
+          <section id="products" className="options">
+            <div className="container">
+              <h2 className="options__title wow animate__animated animate__fadeIn">
+                {t("homePage.safelyTrade")}
+              </h2>
+              <div className="options__wrapper">
+                <div className="options__item wow animate__animated animate__bounceInLeft">
+                  <div className="options__item-icon">
+                    <img src={btc} alt="btc" />
+                  </div>
+                  <div className="options__item-title">{t("homePage.bitcoinTitle")}</div>
+                  <div className="options__item-descr">{t("homePage.bitcoinDesc")}</div>
+                  <a href="#" className="button button_try options__item-btn btn-modal">
+                    {t("homePage.startMining")} <span>&gt;</span>
+                  </a>
+                </div>
+
+                <div className="options__item wow animate__animated animate__bounceIn">
+                  <div className="options__item-icon">
+                    <img src={eth} alt="eth" />
+                  </div>
+                  <div className="options__item-title">{t("homePage.ethereumTitle")}</div>
+                  <div className="options__item-descr">{t("homePage.ethereumDesc")}</div>
+                  <a href="#" className="button button_try options__item-btn btn-modal">
+                    {t("homePage.startMining")} <span>&gt;</span>
+                  </a>
+                </div>
+
+                <div className="options__item wow animate__animated animate__bounceInRight">
+                  <div className="options__item-icon">
+                    <img src={ltc} alt="ltc" />
+                  </div>
+                  <div className="options__item-title">{t("homePage.litecoinTitle")}</div>
+                  <div className="options__item-descr">{t("homePage.litecoinDesc")}</div>
+                  <a href="#" className="button button_try options__item-btn btn-modal">
+                    {t("homePage.startMining")} <span>&gt;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <section id="contact" className="subscribe">
             <div className="container">
               <div className="subscribe__content">
-                <div className="subscibe__text">
-                  <div className="subscribe__descr">
-                    Join TokenTrade.pro to get the latest news
-                  </div>
+                <div className="subscribe__text">
+                  <div className="subscribe__descr">{t("homePage.joinNewsletter")}</div>
                 </div>
                 <form className="subscribe__form">
-                  <input type="text" placeholder="Enter your email" required />
+                  <input type="text" placeholder={t("homePage.subscribePlaceholder")} required />
                   <button type="submit" className="button button_classic">
-                    Subscribe
+                    {t("homePage.subscribeBtn")}
                   </button>
                 </form>
               </div>
             </div>
           </section>
+
           <footer className="footer">
             <div className="container">
               <div className="footer__main">
@@ -458,80 +485,39 @@ const Home = () => {
                 <div className="footer__menu">
                   <div className="footer__heading">Quick Link</div>
                   <ul>
-                    <li>
-                      <a href="#">Home</a>
-                    </li>
-                    <li>
-                      <a href="#">Products</a>
-                    </li>
-                    <li>
-                      <a href="#">About</a>
-                    </li>
-                    <li>
-                      <a href="#">Features</a>
-                    </li>
-                    <li>
-                      <a href="#">Contact</a>
-                    </li>
-                  </ul>
-                </div>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Contact</a></li></ul></div>
+
                 <div className="footer__links">
-                  <div className="footer__heading">Resources</div>
+                  <div className="footer__heading">{t("homePage.resources")}</div>
                   <ul>
-                    <li>
-                      <a href="#">Download Whitepapper</a>
-                    </li>
-                    <li>
-                      <a href="#">Smart Token</a>
-                    </li>
-                    <li>
-                      <a href="#">Blockchain Explorer</a>
-                    </li>
-                    <li>
-                      <a href="#">Crypto API</a>
-                    </li>
-                    <li>
-                      <a href="#">Interest</a>
-                    </li>
+                    <li><a href="#">{t("homePage.downloadWhitepaper")}</a></li>
+                    <li><a href="#">{t("homePage.smartToken")}</a></li>
+                    <li><a href="#">{t("homePage.blockchainExplorer")}</a></li>
+                    <li><a href="#">{t("homePage.cryptoAPI")}</a></li>
+                    <li><a href="#">{t("homePage.interest")}</a></li>
                   </ul>
                 </div>
                 <div className="footer__payment">
-                  <div className="footer__payment-heading">
-                    We accept following <br /> payment systems
-                  </div>
+                  <div className="footer__payment-heading">{t("homePage.paymentAccepted")}</div>
                   <div className="footer__payment-wrapper">
-                    <div className="footer__payment-item">
-                      <img src={visa} alt="visa" />
-                    </div>
-                    <div className="footer__payment-item">
-                      <img src={mastercard} alt="mastercard" />
-                    </div>
-                    <div className="footer__payment-item">
-                      <img src={bitcoin} alt="btc" />
-                    </div>
+                    <div className="footer__payment-item"><img src={visa} alt="visa" /></div>
+                    <div className="footer__payment-item"><img src={mastercard} alt="mastercard" /></div>
+                    <div className="footer__payment-item"><img src={bitcoin} alt="btc" /></div>
                   </div>
                 </div>
               </div>
               <div className="footer__bottom">
-                <div className="footer__copy">
-                  ©2022 CRAPPO. All rights reserved
-                </div>
+                <div className="footer__copy">{t("homePage.rightsReserved")}</div>
                 <div className="footer__social">
-                  <a href="#">
-                    <img src={facebook} alt="facebook" />
-                  </a>
-                  <a href="#">
-                    <img src={instagram} alt="instagram" />
-                  </a>
-                  <a href="#">
-                    <img src={youtube} alt="youtube" />
-                  </a>
-                  <a href="#">
-                    <img src={twitter} alt="twitter" />
-                  </a>
-                  <a href="#">
-                    <img src={linkedin} alt="linkedin" />
-                  </a>
+                  <a href="#"><img src={facebook} alt="facebook" /></a>
+                  <a href="#"><img src={instagram} alt="instagram" /></a>
+                  <a href="#"><img src={youtube} alt="youtube" /></a>
+                  <a href="#"><img src={twitter} alt="twitter" /></a>
+                  <a href="#"><img src={linkedin} alt="linkedin" /></a>
                 </div>
               </div>
             </div>

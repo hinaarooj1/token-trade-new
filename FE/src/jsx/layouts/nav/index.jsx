@@ -11,16 +11,16 @@ const JobieNav = ({ title, onClick: ClickToAddEvent, onClick2, onClick3 }) => {
   const onClick = (name) => setToggle(toggle === name ? "" : name);
   let path = window.location.pathname
   path = path.split('/')
-  path = path[path.length - 1]  
+  path = path[path.length - 1]
 
   return (
     <Fragment>
-        {
-          path === "dashboard" || path === "index-2" ? 
-            <div className="header-banner" style={{backgroundImage:`url(${bgimg})`}}></div>
-            :
-            ""
-       }
+      {
+        path === "dashboard" || path === "index-2" ?
+          <div className="header-banner" style={{ backgroundImage: `url(${bgimg})` }}></div>
+          :
+          ""
+      }
       <NavHader />
       <ChatBox onClick={() => onClick("chatbox")} toggle={toggle} />
       <Header

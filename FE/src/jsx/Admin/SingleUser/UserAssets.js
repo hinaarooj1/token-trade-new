@@ -131,13 +131,14 @@ const UserAssets = () => {
       const userCoins = await getCoinsApi(id);
       if (userCoins.success) {
         setisLoading(false);
-        // let val = response.data.bpi.USD.rate.replace(/,/g, "");
-        // setliveBtc(val);
+        let val = 0;
         if (userCoins && userCoins.btcPrice && userCoins.btcPrice.quote && userCoins.btcPrice.quote.USD) {
-          setliveBtc(userCoins.btcPrice.quote.USD.price);
+
+          val = userCoins.btcPrice.quote.USD.price
         } else {
-          setliveBtc(96075.25);
+          val = 96075.25
         }
+        setliveBtc(val);
         setuserCoins(userCoins)
         console.log('userCoins.getCoin.additionalCoins: ', userCoins.getCoin.additionalCoins);
         setnewUserCoins(userCoins.getCoin.additionalCoins)

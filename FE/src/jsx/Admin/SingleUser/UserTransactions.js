@@ -96,12 +96,14 @@ const UserTransactions = () => {
 
       if (userCoins.success) {
         setUserTransactions(userCoins.getCoin.transactions.reverse());
-        // let val = response.data.bpi.USD.rate.replace(/,/g, "");
+        let val = 0;
         if (userCoins && userCoins.btcPrice && userCoins.btcPrice.quote && userCoins.btcPrice.quote.USD) {
-          setliveBtc(userCoins.btcPrice.quote.USD.price);
+
+          val = userCoins.btcPrice.quote.USD.price
         } else {
-          setliveBtc(96075.25);
+          val = 96075.25
         }
+        setliveBtc(val);
         setisLoading(false);
 
         return;

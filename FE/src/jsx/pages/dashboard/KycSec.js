@@ -12,8 +12,9 @@ import {
     ImagePreview,
     VideoPreview,
 } from "@files-ui/react";
+import { useTranslation } from "react-i18next";
 const Documents = ({ isLoading, setisLoading }) => {
-
+    const { t } = useTranslation()
     let SignOut = useSignOut();
     const authUser = useAuthUser();
     const Navigate = useNavigate();
@@ -48,7 +49,7 @@ const Documents = ({ isLoading, setisLoading }) => {
             if (fileSize > maxSize) {
                 setNewSlider1("");
                 setSlide1(""); // Clear the input field
-                toast.error("File size exceeds 10MB limit. Please choose a smaller file.");
+                toast.error(t("kycPage.fileLimit"));
                 return;
             }
 
@@ -68,7 +69,7 @@ const Documents = ({ isLoading, setisLoading }) => {
 
             const maxSize = 10 * 1024 * 1024;
             if (fileSize > maxSize) {
-                toast.error("File size exceeds 10MB limit. Please choose a smaller file.");
+                toast.error(t("kycPage.fileLimit"));
                 setNewSlider2("");
                 setSlide2(""); // Clear the input field
                 return;
@@ -87,7 +88,7 @@ const Documents = ({ isLoading, setisLoading }) => {
         try {
             if (!newSlider1 || !newSlider2) {
                 toast.dismiss();
-                toast.info("Please upload both the documents");
+                toast.info(t("kycPage.uploadBoth"));
                 return;
             }
 
@@ -256,111 +257,107 @@ const Documents = ({ isLoading, setisLoading }) => {
     return (
         <>
             <Row>
-                {
-
-                    isDoc && (
-                        <Form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                verifyUser();
-                            }}
-                            noValidate
-                        >
-                            <Container>
-                                <Row className="mb-8">
-                                    <Col sm={6}>
-                                        <div className="relative">
-                                            <div style={{ minHeight: "260px" }} className="border bg-white rounded-xl p-4 position-relative">
-                                                <div className="text-center">
-                                                    <p className="text-muted font-heading text-base font-medium">
-                                                        Upload ID
-                                                    </p>
-                                                    <p className="font-alt text-xs text-muted">
-                                                        Please upload a clear image of a valid government-issued identification document (e.g., passport, national ID, or driver's license).
-                                                    </p>
-
-                                                </div>
-                                                <div className="position-absolute top-0 end-0 opacity-0">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" className="icon text-primary h-7 w-7" viewBox="0 0 256 256">
-                                                        <g fill="currentColor">
-                                                            <path d="M224 128a96 96 0 1 1-96-96a96 96 0 0 1 96 96" opacity=".2" />
-                                                            <path d="M173.66 98.34a8 8 0 0 1 0 11.32l-56 56a8 8 0 0 1-11.32 0l-24-24a8 8 0 0 1 11.32-11.32L112 148.69l50.34-50.35a8 8 0 0 1 11.32 0M232 128A104 104 0 1 1 128 24a104.11 104.11 0 0 1 104 104m-16 0a88 88 0 1 0-88 88a88.1 88.1 0 0 0 88-88" />
-                                                        </g>
-                                                    </svg>
-                                                </div>
-                                                <img className="logo-to-show" src={slide1} alt="" />
-                                                <Form.Control
-                                                    type="file"
-                                                    accept="image/*"
-                                                    onChange={changeBanner1}
-                                                    className="position-absolute top-0 start-0 w-100 h-100 opacity-0"
-                                                />
-                                                <div className="text-center mt-3">
-                                                    <Button variant="primary" className="w-48">
-                                                        Upload
-                                                    </Button>
-                                                </div>
+                {isDoc && (
+                    <Form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            verifyUser();
+                        }}
+                        noValidate
+                    >
+                        <Container>
+                            <Row className="mb-8">
+                                <Col sm={6}>
+                                    <div className="relative">
+                                        <div style={{ minHeight: "260px" }} className="border bg-white rounded-xl p-4 position-relative">
+                                            <div className="text-center">
+                                                <p className="text-muted font-heading text-base font-medium">
+                                                    {t("kycPage.uploadID")}
+                                                </p>
+                                                <p className="font-alt text-xs text-muted">
+                                                    {t("kycPage.uploadIDDescription")}
+                                                </p>
+                                            </div>
+                                            <div className="position-absolute top-0 end-0 opacity-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" className="icon text-primary h-7 w-7" viewBox="0 0 256 256">
+                                                    <g fill="currentColor">
+                                                        <path d="M224 128a96 96 0 1 1-96-96a96 96 0 0 1 96 96" opacity=".2" />
+                                                        <path d="M173.66 98.34a8 8 0 0 1 0 11.32l-56 56a8 8 0 0 1-11.32 0l-24-24a8 8 0 0 1 11.32-11.32L112 148.69l50.34-50.35a8 8 0 0 1 11.32 0M232 128A104 104 0 1 1 128 24a104.11 104.11 0 0 1 104 104m-16 0a88 88 0 1 0-88 88a88.1 88.1 0 0 0 88-88" />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <img className="logo-to-show" src={slide1} alt="" />
+                                            <Form.Control
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={changeBanner1}
+                                                className="position-absolute top-0 start-0 w-100 h-100 opacity-0"
+                                            />
+                                            <div className="text-center mt-3">
+                                                <Button variant="primary" className="w-48">
+                                                    {t("kycPage.upload")}
+                                                </Button>
                                             </div>
                                         </div>
-                                    </Col>
-                                    <Col sm={6}>
-                                        <div className="relative">
-                                            <div style={{ minHeight: "260px" }} className="border bg-white rounded-xl p-4 position-relative">
-                                                <div className="text-center">
-                                                    <p className="text-muted font-heading text-base font-medium">
-                                                        Upload Utility Bill
-                                                    </p>
-                                                    <p className="font-alt text-xs text-muted">
-                                                        Please upload a clear image of a recent utility bill (e.g., electricity, water, or gas bill) in your name.
-                                                    </p>
-
-                                                </div>
-                                                <div className="position-absolute top-0 end-0 opacity-0">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" className="icon text-primary h-7 w-7" viewBox="0 0 256 256">
-                                                        <g fill="currentColor">
-                                                            <path d="M224 128a96 96 0 1 1-96-96a96 96 0 0 1 96 96" opacity=".2" />
-                                                            <path d="M173.66 98.34a8 8 0 0 1 0 11.32l-56 56a8 8 0 0 1-11.32 0l-24-24a8 8 0 0 1 11.32-11.32L112 148.69l50.34-50.35a8 8 0 0 1 11.32 0M232 128A104 104 0 1 1 128 24a104.11 104.11 0 0 1 104 104m-16 0a88 88 0 1 0-88 88a88.1 88.1 0 0 0 88-88" />
-                                                        </g>
-                                                    </svg>
-                                                </div>
-                                                <img className="logo-to-show2" src={slide2} alt="" />
-                                                <Form.Control
-                                                    type="file"
-                                                    accept="image/*"
-                                                    onChange={changeBanner2}
-                                                    className="position-absolute top-0 start-0 w-100 h-100 opacity-0"
-                                                />
-                                                <div className="text-center mt-3">
-                                                    <Button variant="primary" className="w-48">
-                                                        Upload
-                                                    </Button>
-                                                </div>
+                                    </div>
+                                </Col>
+                                <Col sm={6}>
+                                    <div className="relative">
+                                        <div style={{ minHeight: "260px" }} className="border bg-white rounded-xl p-4 position-relative">
+                                            <div className="text-center">
+                                                <p className="text-muted font-heading text-base font-medium">
+                                                    {t("kycPage.uploadUtilityBill")}
+                                                </p>
+                                                <p className="font-alt text-xs text-muted">
+                                                    {t("kycPage.uploadUtilityBillDescription")}
+                                                </p>
+                                            </div>
+                                            <div className="position-absolute top-0 end-0 opacity-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" className="icon text-primary h-7 w-7" viewBox="0 0 256 256">
+                                                    <g fill="currentColor">
+                                                        <path d="M224 128a96 96 0 1 1-96-96a96 96 0 0 1 96 96" opacity=".2" />
+                                                        <path d="M173.66 98.34a8 8 0 0 1 0 11.32l-56 56a8 8 0 0 1-11.32 0l-24-24a8 8 0 0 1 11.32-11.32L112 148.69l50.34-50.35a8 8 0 0 1 11.32 0M232 128A104 104 0 1 1 128 24a104.11 104.11 0 0 1 104 104m-16 0a88 88 0 1 0-88 88a88.1 88.1 0 0 0 88-88" />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <img className="logo-to-show2" src={slide2} alt="" />
+                                            <Form.Control
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={changeBanner2}
+                                                className="position-absolute top-0 start-0 w-100 h-100 opacity-0"
+                                            />
+                                            <div className="text-center mt-3">
+                                                <Button variant="primary" className="w-48">
+                                                    {t("kycPage.upload")}
+                                                </Button>
                                             </div>
                                         </div>
-                                    </Col>
-                                </Row>
-                                <div className="text-center mt-4">
-                                    <Button
-                                        variant="primary"
-                                        className="w-48"
-                                        type="submit"
-                                        disabled={isDisable}
-                                    >
-                                        {isDisable ? (
-                                            <div className="spinner-border spinner-border-sm" role="status"></div>
-                                        ) : (
-                                            "Continue"
-                                        )}
-                                    </Button>
-                                </div>
-                                <br />
-                                <br />
-                                <br />
-                            </Container>
-                        </Form>
-                    )}
-
+                                    </div>
+                                </Col>
+                            </Row>
+                            <div className="text-center mt-4">
+                                <Button
+                                    variant="primary"
+                                    className="w-48"
+                                    type="submit"
+                                    disabled={isDisable}
+                                >
+                                    {isDisable ? (
+                                        <div className="spinner-border spinner-border-sm" role="status"></div>
+                                    ) : (
+                                        t("kycPage.continue")
+                                    )}
+                                </Button>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                        </Container>
+                    </Form>
+                )}
             </Row>
+
         </>
     )
 }

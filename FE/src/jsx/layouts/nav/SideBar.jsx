@@ -6,6 +6,7 @@ import SidebarExtraContent from "./SidebarExtraContent";
 import { logoutApi } from "../../../Api/Service";
 import { useSignOut } from 'react-auth-kit';
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const reducer = (previousState, updatedState) => ({
   ...previousState,
@@ -22,7 +23,7 @@ const SideBar = () => {
   const location = useLocation();
   const { ChangeIconSidebar } = useContext(ThemeContext);
   let Latest = new Date();
-
+  const { t } = useTranslation()
   const [state, setState] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const SideBar = () => {
   return (
     <div onMouseEnter={() => ChangeIconSidebar(true)} onMouseLeave={() => ChangeIconSidebar(false)} className="dlabnav">
       <SidebarExtraContent />
-      <span className="main-menu">Main Menu</span>
+      <span className="main-menu">{t("header.mainMenu")}</span>
       <div className="menu-scroll">
         <div className="dlabnav-scroll">
           <ul className="metismenu" id="menu">
@@ -94,7 +95,7 @@ const SideBar = () => {
               </span>
             </div>
             <div className="info">
-              <p>Contact our support</p>
+              <p>                         {t("header.contactSupport")}</p>
               <Link to={"/support"} className="btn bg-white text-black w-75 btn-sm">
                 Supports
               </Link>

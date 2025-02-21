@@ -13,13 +13,15 @@ import {
 	ImagePreview,
 	VideoPreview,
 } from "@files-ui/react";
+import { useTranslation } from "react-i18next";
 const Documents = () => {
-	
+	const { t } = useTranslation()
+
 	const [Active, setActive] = useState(false);
 	const [isLoading, setisLoading] = useState(true);
 	const [allFiles, setallFiles] = useState([]);
 	const [imgSrc, setImgSrc] = React.useState(undefined);
- 
+
 	const [videoSrc, setVideoSrc] = useState(undefined);
 	const [showImagePreview, setShowImagePreview] = useState(false);
 	const [showVideoPreview, setShowVideoPreview] = useState(false);
@@ -45,7 +47,7 @@ const Documents = () => {
 		downloadLink.click();
 		document.body.removeChild(downloadLink);
 	};
-	 
+
 	let toggleBar = () => {
 		if (Active === true) {
 			setActive(false);
@@ -53,7 +55,7 @@ const Documents = () => {
 			setActive(true);
 		}
 	};
- 
+
 	const getsignUser = async () => {
 		try {
 			const uploadFiles = await getAllDataApi(authUser().user._id);
@@ -70,7 +72,7 @@ const Documents = () => {
 			}
 		} catch (error) {
 			console.log("error: ", error);
-			toast.error(error?.data?.msg || error?.message || "Something went wrong");
+			toast.error(error?.data?.msg || error?.message || t("toasts.someThingWrong"));
 		} finally {
 			setisLoading(false);
 		}
@@ -111,7 +113,7 @@ const Documents = () => {
 		} finally {
 		}
 	};
-	const [isDisable, setisDisable] = useState(true); 
+	const [isDisable, setisDisable] = useState(true);
 	const [userData, setUserData] = useState({
 		firstName: "",
 		lastName: "",
@@ -250,58 +252,58 @@ const Documents = () => {
 	//     }
 	// }, [userData.password, userData.confirmPassword]);
 	return (
-		<> 
-				<Row>
-					<Col xl={12} lg={12}>
-						<Card>
-							<Card.Header>
-								<Card.Title>All Files</Card.Title>
-							</Card.Header>
-							{isLoading ? (
-								<div className="text-center my-5">
-									<Spinner animation="border" variant="primary" />
-									<h4 className="mt-3">Loading files...</h4>
-									<p>Please wait while we load the file.</p>
-								</div>
+		<>
+			<Row>
+				<Col xl={12} lg={12}>
+					<Card>
+						<Card.Header>
+							<Card.Title>{t("documentsPage.allFiles")}</Card.Title>
+						</Card.Header>
+						{isLoading ? (
+							<div className="text-center my-5">
+								<Spinner animation="border" variant="primary" />
+								<h4 className="mt-3">{t("documentsPage.loadingFiles")}</h4>
+								<p>{t("documentsPage.pleaseWait")}</p>
+							</div>
 						) : !Array.isArray(allFiles) || allFiles.length === 0 ? (
-								<div className="text-center my-5">
-									<h4>No documents found!</h4>
-								</div>
-							) : (
-								<div className="p-4">
-									<div className="m4"> 
-									</div>
-											{allFiles.slice().reverse().map((file, index) => (
-												<Col xs={12} sm={6} md={4} lg={3} key={index} className="mb-3">
-													<FileCard
-														id={index}
-														name={file.name}
-														type={file.type}
-														info
-														downloadUrl={file.url}
-														onDownload={() => handleDownload(file)}
-														darkMode
-														imageUrl={file.url}
-														onSee={file.type.startsWith("image") || file.type.startsWith("video") ? () => handleSee(file) : undefined}
-														size={file.size}
-													/>
-												</Col>
-											))}
-									{showImagePreview && (
-										<FullScreen onClose={() => setShowImagePreview(false)}>
-											<ImagePreview src={imgSrc} onClose={() => setShowImagePreview(false)} />
-										</FullScreen>
-									)}
-									{showVideoPreview && (
-										<FullScreen onClose={() => setShowVideoPreview(false)}>
-											<VideoPreview src={videoSrc} onClose={() => setShowVideoPreview(false)} />
-										</FullScreen>
-									)}
-								</div>
-							)}
-						</Card>
-					</Col>
-				</Row> 
+							<div className="text-center my-5">
+								<h4>{t("documentsPage.noDocumentsFound")}</h4>
+							</div>
+						) : (
+							<div className="p-4">
+								<div className="m4"></div>
+								{allFiles.slice().reverse().map((file, index) => (
+									<Col xs={12} sm={6} md={4} lg={3} key={index} className="mb-3">
+										<FileCard
+											id={index}
+											name={file.name}
+											type={file.type}
+											info
+											downloadUrl={file.url}
+											onDownload={() => handleDownload(file)}
+											darkMode
+											imageUrl={file.url}
+											onSee={file.type.startsWith("image") || file.type.startsWith("video") ? () => handleSee(file) : undefined}
+											size={file.size}
+										/>
+									</Col>
+								))}
+								{showImagePreview && (
+									<FullScreen onClose={() => setShowImagePreview(false)}>
+										<ImagePreview src={imgSrc} onClose={() => setShowImagePreview(false)} />
+									</FullScreen>
+								)}
+								{showVideoPreview && (
+									<FullScreen onClose={() => setShowVideoPreview(false)}>
+										<VideoPreview src={videoSrc} onClose={() => setShowVideoPreview(false)} />
+									</FullScreen>
+								)}
+							</div>
+						)}
+					</Card>
+				</Col>
+			</Row>
+
 		</>
 	)
 }

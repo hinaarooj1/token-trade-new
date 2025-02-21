@@ -11,9 +11,11 @@ import axios from 'axios';
 import { Button, Card, Col, Form, DropdownDivider, InputGroup, Modal, Row, Spinner } from 'react-bootstrap';
 import './style.css'
 import Truncate from 'react-truncate-inside/es';
+import { useTranslation } from 'react-i18next';
 
 
 const PaymentMethods = () => {
+    const { t } = useTranslation()
     const [Active, setActive] = useState(false);
     const [isLoading, setisLoading] = useState(true);
     const [isDisable, setisDisable] = useState(false);
@@ -147,7 +149,7 @@ const PaymentMethods = () => {
                 !body.iban
             ) {
                 toast.dismiss();
-                toast.error("Fill all the required fields");
+                toast.error(t("assetsPage.fillAll"));
                 return;
             }
             const newAccount = await PaymentsApi(id, body);
@@ -235,25 +237,25 @@ const PaymentMethods = () => {
         const newErrors = {};
         // Card Number validation
         if (!/^\d{16}$/.test(formData.cardNumber)) {
-            newErrors.cardNumber = "Card number must be 16 digits";
+            newErrors.cardNumber = t("paymentsPage.cardNum");
         }
         const cardType = getCardTypeFromNumber(formData.cardNumber);
         if (cardType === "other" && formData.cardNumber.length === 16) {
-            newErrors.cardNumber = "Invalid Card";
+            newErrors.cardNumber = t("paymentsPage.invalidCard");
         }
 
         // Card Holder validation
         if (!formData.cardHolder) {
-            newErrors.cardHolder = "Card holder is required";
+            newErrors.cardHolder = t("paymentsPage.cardHolderReq");
         }
 
         // CVV validation
         if (!/^\d{3}$/.test(formData.cvv)) {
-            newErrors.cvv = "CVV must be 3 digits";
+            newErrors.cvv = t("paymentsPage.cvvError");
         }
         // Expiry Date validation
         if (!/^\d{2}\/\d{2}$/.test(formData.expiryDate)) {
-            newErrors.expiryDate = "Expiry date must be in MM/YY format";
+            newErrors.expiryDate = t("paymentsPage.dateError");
         }
         setErrors(newErrors);
 
@@ -312,35 +314,27 @@ const PaymentMethods = () => {
                             {isLoading ? (
                                 <div className="text-center my-5">
                                     <Spinner animation="border" variant="primary" />
-                                    <h4 className="mt-3">Loading Accounts...</h4>
-                                    <p>Please wait while we load the accounts.</p>
+                                    <h4 className="mt-3">{t("paymentsPage.loadingAccounts")}</h4>
+                                    <p>{t("paymentsPage.loadingAccountsMessage")}</p>
                                 </div>
                             ) : UserData === null || !UserData ? (
                                 <div className="text-center my-5">
-                                    <h4> No Account found!</h4>
+                                    <h4>{t("paymentsPage.noAccountFound")}</h4>
                                 </div>) : (
 
 
                                 <div className=" ptbg relative w-full    transition-all duration-300 ">
                                     <div className="flex items-center justify-between p-4">
                                         <div>
-                                            <h3
-                                                className=" font-heading   text-sm font-medium leading-normal leading-normal uppercase tracking-wider"
-                                                tag="h2"
-                                            >
-                                                Payment Methods
+                                            <h3 className="font-heading text-sm font-medium leading-normal uppercase tracking-wider">
+                                                {t("paymentsPage.paymentMethods")}
                                             </h3>
-                                            <p className="">
-                                                You can add or remove your payment methods here.
+                                            <p>
+                                                {t("paymentsPage.paymentMethodsDescription")}
                                             </p>
                                         </div>
                                         <button onClick={() => setModal3(true)} className="add-btn btn btn-primary">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width={24}
-                                                height={24}
-                                                fill="none"
-                                            >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none">
                                                 <path
                                                     stroke="currentColor"
                                                     strokeLinecap="round"
@@ -349,13 +343,14 @@ const PaymentMethods = () => {
                                                     d="M12 5v14m-7-7h14"
                                                 />
                                             </svg>
-                                            Add New
+                                            {t("paymentsPage.addNew")}
                                         </button>
                                     </div>
+
                                     <div className="pt-6">
                                         <div class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-3 css-v57kt1">
                                             {isLoading ? (
-                                                <div>Loading...</div>
+                                                <div>{t("paymentsPage.Loading")}...</div>
                                             ) : isUser.payments.length !== 0 ? (
                                                 isUser.payments.map((item, key) => {
                                                     return (
@@ -416,17 +411,17 @@ const PaymentMethods = () => {
                                                                             {item.type === "bank" ? (
                                                                                 <>
                                                                                     <p>
-                                                                                        <b> Bank Name:</b> <br />
+                                                                                        <b> {t("paymentsPage.bankName")}:</b> <br />
                                                                                         {item.bank.accountName}
                                                                                     </p>{" "}
 
                                                                                     <p>
-                                                                                        <b> Bank Account:</b>
+                                                                                        <b> {t("paymentsPage.accountNumber")}:</b>
                                                                                         <br />
                                                                                         {item.bank.accountNumber}
                                                                                     </p>{" "}
                                                                                     <p>
-                                                                                        <b>   Bank IBAN:</b>
+                                                                                        <b>   {t("paymentsPage.bankIban")}:</b>
                                                                                         <br />
                                                                                         {item.bank.iban}
                                                                                     </p>{" "}
@@ -521,7 +516,7 @@ const PaymentMethods = () => {
                                             ) : (
                                                 <div className="px-5 py-4">
                                                     <h1 className="">
-                                                        No payment methods found
+                                                        {t("paymentsPage.noMethod")}
                                                     </h1>
                                                 </div>
                                             )}
@@ -547,55 +542,64 @@ const PaymentMethods = () => {
                     <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title" id="paymentModalLabel">Add Payment Method</h5>
+                                <h5 className="modal-title" id="paymentModalLabel">
+                                    {t("paymentsPage.addPaymentMethod")}
+                                </h5>
                                 <Button
                                     variant=""
                                     onClick={closeDeposit}
                                     className="btn-close"
-
                                 ></Button>
                             </div>
                             <div className="modal-body">
-
-                                <div className="mb-3 axs text-center" bis_skin_checked={1}>
-                                    <button onClick={activeBank}
-                                        className={activeBankOption ? "btn  btn-primary me-2" : "btn btn-outline-primary  btn me-2"}>Bank Account</button>
-                                    <button onClick={activeCredit}
+                                <div className="mb-3 axs text-center">
+                                    <button
+                                        onClick={activeBank}
+                                        className={activeBankOption ? "btn btn-primary me-2" : "btn btn-outline-primary btn me-2"}
+                                    >
+                                        {t("paymentsPage.bankAccount")}
+                                    </button>
+                                    <button
+                                        onClick={activeCredit}
                                         type="button"
-                                        className={!activeBankOption ? "btn  btn-primary" : "btn btn-outline-primary"}> Credit Card</button></div>
+                                        className={!activeBankOption ? "btn btn-primary" : "btn btn-outline-primary"}
+                                    >
+                                        {t("paymentsPage.creditCard")}
+                                    </button>
+                                </div>
                                 {activeBankOption ? (
                                     <form>
                                         <div className="form-group">
-                                            <label htmlFor="bankName">Bank Name</label>
+                                            <label htmlFor="bankName">{t("paymentsPage.bankName")}</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
                                                 id="bankName"
-                                                placeholder="Enter bank name"
+                                                placeholder={t("paymentsPage.enterBankName")}
                                                 value={accountDetail.accountName}
                                                 onChange={handleTransactionId}
                                                 name="accountName"
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="accountNumber">Account Number</label>
+                                            <label htmlFor="accountNumber">{t("paymentsPage.accountNumber")}</label>
                                             <input
                                                 type="number"
                                                 className="form-control"
                                                 id="accountNumber"
-                                                placeholder="Enter account number"
+                                                placeholder={t("paymentsPage.enterAccountNumber")}
                                                 value={accountDetail.accountNumber}
                                                 onChange={handleTransactionId}
                                                 name="accountNumber"
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="iban">IBAN</label>
+                                            <label htmlFor="iban">{t("paymentsPage.iban")}</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
                                                 id="iban"
-                                                placeholder="Enter IBAN"
+                                                placeholder={t("paymentsPage.enterIban")}
                                                 value={accountDetail.iban}
                                                 onChange={handleTransactionId}
                                                 name="iban"
@@ -603,13 +607,13 @@ const PaymentMethods = () => {
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="accountNotes">
-                                                * We take your privacy seriously. Bank-sensitive data undergoes thorough encryption procedures before being securely stored.
+                                                {t("paymentsPage.bankPrivacyMessage")}
                                             </label>
                                             <textarea
                                                 className="form-control"
                                                 id="accountNotes"
                                                 rows="3"
-                                                placeholder="Enter notes"
+                                                placeholder={t("paymentsPage.enterNotes")}
                                                 value={accountDetail.accountNotes}
                                                 onChange={handleTransactionId}
                                                 name="accountNotes"
@@ -619,12 +623,12 @@ const PaymentMethods = () => {
                                 ) : (
                                     <form>
                                         <div className="form-group">
-                                            <label htmlFor="cardNumber">Card Number</label>
+                                            <label htmlFor="cardNumber">{t("paymentsPage.cardNumber")}</label>
                                             <input
                                                 type="text"
                                                 className={`form-control ${errors.cardNumber ? 'is-invalid' : ''}`}
                                                 id="cardNumber"
-                                                placeholder="Enter card number"
+                                                placeholder={t("paymentsPage.enterCardNumber")}
                                                 value={formData.cardNumber}
                                                 onChange={handleChange}
                                                 name="cardNumber"
@@ -634,12 +638,12 @@ const PaymentMethods = () => {
                                             )}
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="cardHolder">Card Holder</label>
+                                            <label htmlFor="cardHolder">{t("paymentsPage.cardHolder")}</label>
                                             <input
                                                 type="text"
                                                 className={`form-control ${errors.cardHolder ? 'is-invalid' : ''}`}
                                                 id="cardHolder"
-                                                placeholder="Enter card holder name"
+                                                placeholder={t("paymentsPage.enterCardHolder")}
                                                 value={formData.cardHolder}
                                                 onChange={handleChange}
                                                 name="cardHolder"
@@ -650,7 +654,7 @@ const PaymentMethods = () => {
                                         </div>
                                         <div className="form-row">
                                             <div className="form-group col-md-6">
-                                                <label htmlFor="expiryDate">Expiry Date</label>
+                                                <label htmlFor="expiryDate">{t("paymentsPage.expiryDate")}</label>
                                                 <input
                                                     type="text"
                                                     className={`form-control ${errors.expiryDate ? 'is-invalid' : ''}`}
@@ -665,12 +669,12 @@ const PaymentMethods = () => {
                                                 )}
                                             </div>
                                             <div className="form-group col-md-6">
-                                                <label htmlFor="cvv">CVV</label>
+                                                <label htmlFor="cvv">{t("paymentsPage.cvv")}</label>
                                                 <input
                                                     type="text"
                                                     className={`form-control ${errors.cvv ? 'is-invalid' : ''}`}
                                                     id="cvv"
-                                                    placeholder="CVV"
+                                                    placeholder={t("paymentsPage.enterCvv")}
                                                     value={formData.cvv}
                                                     onChange={handleChange}
                                                     name="cvv"
@@ -682,13 +686,13 @@ const PaymentMethods = () => {
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="creditCardNotes">
-                                                * We take your privacy seriously. Bank-sensitive data undergoes thorough encryption procedures before being securely stored.
+                                                {t("paymentsPage.creditCardPrivacyMessage")}
                                             </label>
                                             <textarea
                                                 className="form-control"
                                                 id="creditCardNotes"
                                                 rows="3"
-                                                placeholder="Enter notes"
+                                                placeholder={t("paymentsPage.enterNotes")}
                                                 value={accountDetail.accountNotes}
                                                 onChange={handleTransactionId}
                                                 name="accountNotes"
@@ -704,7 +708,7 @@ const PaymentMethods = () => {
                                     onClick={closeDeposit}
                                     disabled={isDisable}
                                 >
-                                    Cancel
+                                    {t("paymentsPage.cancel")}
                                 </button>
                                 <button
                                     type="button"
@@ -714,10 +718,10 @@ const PaymentMethods = () => {
                                 >
                                     {isDisable ? (
                                         <div className="spinner-border spinner-border-sm" role="status">
-                                            <span className="sr-only">Loading...</span>
+                                            <span className="sr-only">{t("paymentsPage.loading")}...</span>
                                         </div>
                                     ) : (
-                                        "Add Payment Method"
+                                        t("paymentsPage.addPaymentMethod")
                                     )}
                                 </button>
                             </div>
@@ -725,6 +729,7 @@ const PaymentMethods = () => {
                     </div>
                 </div>
             )}
+
 
         </>
 

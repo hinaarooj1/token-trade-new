@@ -6,11 +6,13 @@ import { useAuthUser, useSignOut } from "react-auth-kit";
 import { logoutApi, getsignUserApi, getCoinsUserApi } from "../../../Api/Service";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 // let path = window.location.pathname;
 // path = path.split("/");
 // path = path[path.length - 1];
 
 const SidebarExtraContent = () => {
+	const { t } = useTranslation()
 	const location = useLocation();
 	const [modal, setModal] = useState(false);
 	const [Description, setDescription] = useState("");
@@ -70,8 +72,8 @@ const SidebarExtraContent = () => {
 		try {
 			const userCoins = await getCoinsUserApi(id);
 			// const response = await axios.get(
-			// // 	"https://api.coindesk.com/v1/bpi/currentprice.json"
-			// // );
+			// 	"https://api.coindesk.com/v1/bpi/currentprice.json"
+			// );
 
 			if (userCoins.success) {
 				setUserData(userCoins.getCoin);
@@ -83,13 +85,15 @@ const SidebarExtraContent = () => {
 				setisLoading(false);
 
 				// Fetch live BTC price
-				// let val = response.data.bpi.USD.rate.replace(/,/g, "");
-				// setliveBtc(val);
+				let val = 0;
 				if (userCoins && userCoins.btcPrice && userCoins.btcPrice.quote && userCoins.btcPrice.quote.USD) {
-					setliveBtc(userCoins.btcPrice.quote.USD.price);
+
+					val = userCoins.btcPrice.quote.USD.price
 				} else {
-					setliveBtc(96075.25);
+					val = 96075.25
 				}
+				setliveBtc(val);
+
 				// Helper function to calculate the balances
 				const calculateBalance = (coinSymbol, coinPrice) => {
 					// Ensure case-insensitive comparison by converting to lowercase
@@ -105,7 +109,7 @@ const SidebarExtraContent = () => {
 				};
 
 				// Calculate balances for each coin (completed transactions)
-				const btcBalance = calculateBalance("bitcoin", parseFloat(userCoins?.btcPrice?.quote?.USD?.price ?? 96075.25));
+				const btcBalance = calculateBalance("bitcoin", parseFloat(val));
 				const ethBalance = calculateBalance("ethereum", 2640.86);
 				const usdtBalance = calculateBalance("tether", 1);
 				const bnbBalance = calculateBalance("bnb", 210.25); // Lowercased "BNB"
@@ -175,7 +179,7 @@ const SidebarExtraContent = () => {
 					return totalPendingAmount * coinPrice;
 				};
 
-				const btcPending = calculatePendingBalance("bitcoin", parseFloat(userCoins?.btcPrice?.quote?.USD?.price ?? 96075.25));
+				const btcPending = calculatePendingBalance("bitcoin", parseFloat(val));
 				const ethPending = calculatePendingBalance("ethereum", 2241.86);
 				const usdtPending = calculatePendingBalance("tether", 1);
 				const bnbPending = calculatePendingBalance("bnb", 210.25);
@@ -273,14 +277,14 @@ const SidebarExtraContent = () => {
 					{SVGICON.SideWalletSvgIcon}
 					<div className="ms-3">
 						<h4 className="text-white mb-0 d-block">{totalBalance === null ? "..." : totalBalance === 0 ? 0 : `${totalBalance}`} </h4>
-						<small>Available Funds</small>
+						<small>{t("header.availableFunds")}</small>
 					</div>
 				</div>
 				<div className="wallet-box">
 					{SVGICON.SideWalletSvgIcon}
 					<div className="ms-3">
 						<h4 className="text-white mb-0 d-block">{totalBalancePending === null ? "..." : totalBalance === 0 ? 0 : `${totalBalancePending}`} </h4>
-						<small> Total Pending</small>
+						<small> {t("header.totalPending")}</small>
 					</div>
 				</div>
 

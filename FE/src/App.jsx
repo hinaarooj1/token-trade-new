@@ -83,16 +83,17 @@ import "./assets/css/stylemain.css";
 // export default withRouter(connect(App));
 import React from 'react';
 import Router from './config/router';
-import HomeData from './jsx/pages/user/Home/Home';
 // import Login from './jsx/pages/authentication/Login';
-
+import './i18n'
+import './latest.css'
+import { useTranslation } from 'react-i18next';
 const App = () => {
+
+    const { t, i18n } = useTranslation();
     return (
         <div>
             <Router />
-            <div className='hiden'>
-                <HomeData />
-            </div>
+
         </div>
     );
 }

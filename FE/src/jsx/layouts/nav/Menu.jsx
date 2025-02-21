@@ -139,15 +139,15 @@ const useMenuList = () => {
             iconStyle: <i className="material-symbols-outlined">apps_outage</i>,
 
         },
-        {
-            title: 'My Stocks',
-            classsChange: 'mm-active',
+        // {
+        //     title: 'My Stocks',
+        //     classsChange: 'mm-active',
 
 
-            to: Admin ? `/stocks/${Admin._id}` : '#',
-            iconStyle: <i className="material-symbols-outlined">table</i>,
+        //     to: Admin ? `/stocks/${Admin._id}` : '#',
+        //     iconStyle: <i className="material-symbols-outlined">table</i>,
 
-        },
+        // },
         {
             title: 'Documents',
             classsChange: 'mm-active',

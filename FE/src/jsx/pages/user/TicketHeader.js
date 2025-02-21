@@ -4,7 +4,7 @@ import './AllTicket.css'; // Import your custom CSS
 import profile from "../../../assets/images/7309681.jpg";
 import adminDp from "../../../assets/admin.jpg";
 
-import LogoNew from '../../../assets/images/logo.png'
+import LogoNew from '../../../assets/newlogo/logo.png'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Dropdown, Spinner } from 'react-bootstrap';
 import { useAuthUser } from 'react-auth-kit';
@@ -27,7 +27,8 @@ const TicketHeader = (props) => {
                                             </Link>
                                         </div>
                                         <div className="navbar-wrap main-menu m-auto d-none d-lg-flex">
-                                            <ul id="menu-1-8e54fb7" className="navigation"><li id="menu-item-1270" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-144 current_page_item menu-item-1270"><Link to="/" aria-current="page">Home</Link></li>
+                                            <ul id="menu-1-8e54fb7" className="navigation">
+
                                                 <li id="menu-item-1274" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-1274"><Link to="/dashboard" aria-current="page">Dashboard</Link></li>
                                                 <li id="menu-item-1275" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-1275"><Link to="/support" aria-current="page">Tickets</Link></li>
 

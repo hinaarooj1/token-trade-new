@@ -13,11 +13,10 @@
     outline-color: #cbd5e1;
     outline-style: dashed
 }
-
-.masa {
-    background-color: black;
-    padding: 20px !important;
-    border-radius: 10px;
+.bg-primary-400a{
+    background-color:#8b5cf6!important;
+    /* color:#8b5cf6 !important */
+    color:white !important
 }
 
 .logo-to-show2,

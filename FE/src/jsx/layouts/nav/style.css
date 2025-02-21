@@ -24,3 +24,19 @@
   cursor: pointer;
 
 }
+
+.thisd button {
+  padding-block: 13px !important;
+}
+
+.thisd .language-dropdown-menu {
+  top: 47px;
+  left: 0px;
+}
+
+.thisd .language-dropdown-menu,
+.thisd button {
+  border: none !important;
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}

@@ -5,13 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-import LogoNew from "../../../assets/images/img/Logo - Copy.png";
+import LogoNew from "../../../assets/newlogo/logo-blue.png";
+import { useTranslation } from "react-i18next";
 
 function Register(props) {
   const [isloading, setisloading] = useState(false);
   const [chkbx, setchkbx] = useState(false);
   const [verifyP, setverifyP] = useState(false);
 
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   let errorsObj = { email: '', password: '' };
@@ -77,118 +79,109 @@ function Register(props) {
     const errorObj = { ...errorsObj };
 
     if (!userData.firstName.trim()) {
-      errorObj.firstName = 'Password is Required';
+      errorObj.firstName = t("signupPage.firstNameRequired");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
-        text: errorObj.password,
-      })
+        title: t("signupPage.oops"),
+        text: errorObj.firstName,
+      });
     }
     if (!userData.lastName.trim()) {
-      errorObj.lastName = 'Last Name is Required';
+      errorObj.lastName = t("signupPage.lastNameRequired");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
-        text: errorObj.email,
-      })
+        title: t("signupPage.oops"),
+        text: errorObj.lastName,
+      });
     }
     if (!userData.phone.trim()) {
-      errorObj.phone = 'Phone is Required';
+      errorObj.phone = t("signupPage.phoneRequired");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
-        text: errorObj.email,
-      })
-    }
-    if (!userData.phone.trim()) {
-      errorObj.phone = 'Phone is Required';
-      error = true;
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops',
-        text: errorObj.email,
-      })
+        title: t("signupPage.oops"),
+        text: errorObj.phone,
+      });
     }
     if (!userData.country.trim()) {
-      errorObj.country = 'Country is Required';
+      errorObj.country = t("signupPage.countryRequired");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
-        text: errorObj.email,
-      })
+        title: t("signupPage.oops"),
+        text: errorObj.country,
+      });
     }
     if (!userData.postalCode.trim()) {
-      errorObj.postalCode = 'Postal Code is Required';
+      errorObj.postalCode = t("signupPage.postalCodeRequired");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
-        text: errorObj.email,
-      })
+        title: t("signupPage.oops"),
+        text: errorObj.postalCode,
+      });
     }
     if (!userData.city.trim()) {
-      errorObj.city = 'City is Required';
+      errorObj.city = t("signupPage.cityRequired");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
-        text: errorObj.email,
-      })
+        title: t("signupPage.oops"),
+        text: errorObj.city,
+      });
     }
     if (!userData.address.trim()) {
-      errorObj.address = 'Address is Required';
+      errorObj.address = t("signupPage.addressRequired");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
-        text: errorObj.email,
-      })
+        title: t("signupPage.oops"),
+        text: errorObj.address,
+      });
     }
     if (!userData.email.trim()) {
-      errorObj.email = 'Email is Required';
+      errorObj.email = t("signupPage.emailRequired");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
+        title: t("signupPage.oops"),
         text: errorObj.email,
-      })
+      });
     }
     if (userData.password === '') {
-      errorObj.password = 'Password is Required';
+      errorObj.password = t("signupPage.passwordRequired");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
+        title: t("signupPage.oops"),
         text: errorObj.password,
       });
     } else if (userData.password.length < 8) {
-      errorObj.password = 'Password must be at least 8 characters long';
+      errorObj.password = t("signupPage.passwordLengthError");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
+        title: t("signupPage.oops"),
         text: errorObj.password,
       });
     }
-    if (userData.password != userData.cpassword) {
-      errorObj.cpassword = "Password and confirm password doesn't match";
+    if (userData.password !== userData.cpassword) {
+      errorObj.cpassword = t("signupPage.passwordMismatch");
       error = true;
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
+        title: t("signupPage.oops"),
         text: errorObj.cpassword,
-      })
+      });
     }
 
     setErrors(errorObj);
     if (error) return;
-    setisloading(true)
-    try {
 
+    setisloading(true);
+    try {
       let data = {
         firstName: userData.firstName,
         lastName: userData.lastName,
@@ -213,11 +206,12 @@ function Register(props) {
       }
     } catch (error) {
       toast.dismiss();
-      toast.error(error?.data?.msg || error?.message || "Something went wrong");
+      toast.error(error?.data?.msg || error?.message || t("toasts.someThingWrong"));
     } finally {
       setisloading(false);
     }
-  }
+  };
+
   useEffect(() => {
     if (isAuthenticated() && authUser().user.role === "user") {
       navigate("/dashboard");
@@ -228,11 +222,9 @@ function Register(props) {
   }, []);
   return (
     <div className="fix-wrapper">
-      <div className="container ">
+      <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-5 col-md-6">
-
-
             <div className="card mb-0 h-auto">
               <div className="card-body">
                 <div className="text-center mb-2">
@@ -240,7 +232,7 @@ function Register(props) {
                     <img src={LogoNew} alt="" />
                   </Link>
                 </div>
-                <h4 className="text-center mb-4 ">Sign up your account</h4>
+                <h4 className="text-center mb-4">{t("signupPage.signupYourAccount")}</h4>
                 {props.errorMessage && (
                   <div className='text-danger'>
                     {props.errorMessage}
@@ -253,46 +245,43 @@ function Register(props) {
                 )}
                 <form onSubmit={onSignUp}>
                   <div className="form-group">
-                    <label className="form-label">First Name</label>
+                    <label className="form-label">{t("signupPage.firstName")}</label>
                     <input
                       onChange={handleInput}
                       value={userData.firstName}
                       name="firstName"
                       type="text"
                       className="form-control"
-                      placeholder="First Name"
+                      placeholder={t("signupPage.firstName")}
                     />
                     {errors.firstName && <div className="text-danger">{errors.firstName}</div>}
-
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Last Name</label>
+                    <label className="form-label">{t("signupPage.lastName")}</label>
                     <input
-
                       onChange={handleInput}
                       value={userData.lastName}
                       name="lastName"
                       type="text"
                       className="form-control"
-                      placeholder="Last Name"
+                      placeholder={t("signupPage.lastName")}
                     />
                     {errors.lastName && <div className="text-danger">{errors.lastName}</div>}
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Email Address</label>
+                    <label className="form-label">{t("signupPage.emailAddress")}</label>
                     <input
-
                       type="email"
                       onChange={handleInput}
                       value={userData.email}
                       name="email"
                       className="form-control"
-                      placeholder="Email Address"
+                      placeholder={t("signupPage.emailAddress")}
                     />
                     {errors.email && <div className="text-danger">{errors.email}</div>}
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Phone Number</label>
+                    <label className="form-label">{t("signupPage.phoneNumber")}</label>
                     <input
                       onChange={handleInput}
                       type="number"
@@ -313,24 +302,19 @@ function Register(props) {
                       value={userData.phone}
                       name="phone"
                       className="form-control"
-                      placeholder="Ex: 1 234 5678"
-
+                      placeholder={t("signupPage.phoneExample")}
                     />
                     {errors.phone && <div className="text-danger">{errors.phone}</div>}
-
                   </div>
                   <div className="mb-4 relative">
-                    <label className="form-label">Password</label>
-                    <input className="form-control" placeholder="password"
+                    <label className="form-label">{t("signupPage.password")}</label>
+                    <input className="form-control" placeholder={t("signupPage.password")}
                       type={type1}
                       onChange={handleInput}
                       value={userData.password}
                       name="password"
                     />
-                    <span className={`show-pass eye `}
-
-                      onClick={handleTogglePassword}
-                    >
+                    <span className={`show-pass eye`} onClick={handleTogglePassword}>
                       {type1 === "password" ? (
                         <i className="fa fa-eye-slash" />
                       ) : (
@@ -340,18 +324,14 @@ function Register(props) {
                     {errors.password && <div className="text-danger">{errors.password}</div>}
                   </div>
                   <div className="mb-4 relative">
-                    <label className="form-label">                          Confirm Password
-                    </label>
-                    <input className="form-control" placeholder="password"
+                    <label className="form-label">{t("signupPage.confirmPassword")}</label>
+                    <input className="form-control" placeholder={t("signupPage.password")}
                       type={type2}
                       onChange={handleInput}
                       value={userData.cpassword}
                       name="cpassword"
                     />
-                    <span className={`show-pass eye `}
-
-                      onClick={handleTogglePassword1}
-                    >
+                    <span className={`show-pass eye`} onClick={handleTogglePassword1}>
                       {type2 === "password" ? (
                         <i className="fa fa-eye-slash" />
                       ) : (
@@ -360,62 +340,54 @@ function Register(props) {
                     </span>
                     {errors.cpassword && <div className="text-danger">{errors.cpassword}</div>}
                   </div>
-
-
                   <div className="form-group">
-                    <label className="form-label">Country</label>
+                    <label className="form-label">{t("signupPage.country")}</label>
                     <input
-
                       type="text"
                       onChange={handleInput}
                       value={userData.country}
                       name="country"
-                      placeholder="Your Coutry"
+                      placeholder={t("signupPage.country")}
                       className="form-control"
                     />
                     {errors.country && <div className="text-danger">{errors.country}</div>}
-
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Postal Code</label>
+                    <label className="form-label">{t("signupPage.postalCode")}</label>
                     <input
                       type="text"
                       onChange={handleInput}
                       value={userData.postalCode}
                       name="postalCode"
-                      placeholder="Your Postal Code"
+                      placeholder={t("signupPage.postalCode")}
                       className="form-control"
                     />
                     {errors.postalCode && <div className="text-danger">{errors.postalCode}</div>}
-
                   </div>
                   <div className="form-group">
-                    <label className="form-label">City</label>
+                    <label className="form-label">{t("signupPage.city")}</label>
                     <input
                       type="text"
                       onChange={handleInput}
                       value={userData.city}
                       name="city"
-                      placeholder="Your City"
+                      placeholder={t("signupPage.city")}
                       className="form-control"
                     />
                     {errors.city && <div className="text-danger">{errors.city}</div>}
-
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Address</label>
+                    <label className="form-label">{t("signupPage.address")}</label>
                     <input
                       type="text"
                       onChange={handleInput}
                       value={userData.address}
                       name="address"
-                      placeholder="Your Address"
+                      placeholder={t("signupPage.address")}
                       className="form-control"
                     />
                     {errors.address && <div className="text-danger">{errors.address}</div>}
-
                   </div>
-
 
                   <div className="text-center mt-4">
                     <button
@@ -423,25 +395,25 @@ function Register(props) {
                       disabled={isloading}
                       className="btn btn-primary btn-block"
                     >
-                      Sign me up
+                      {t("signupPage.signMeUp")}
                     </button>
                   </div>
                 </form>
                 <div className="new-account mt-3">
                   <p className="">
-                    Already have an account?{" "}
+                    {t("signupPage.alreadyHaveAccount")}{" "}
                     <Link className="text-primary" to="/auth/login">
-                      Sign in
+                      {t("signupPage.signIn")}
                     </Link>
                   </p>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
+
   );
 };
 

@@ -11,9 +11,11 @@ import axios from 'axios';
 import { Button, Card, Col, Form, DropdownDivider, InputGroup, Modal, Row, Spinner, Container } from 'react-bootstrap';
 import './style.css'
 import Truncate from 'react-truncate-inside/es';
+import { useTranslation } from 'react-i18next';
 
 
 const Support = () => {
+    const { t } = useTranslation()
     const [Active, setActive] = useState(false);
     let toggleBar = () => {
         if (Active === true) {
@@ -137,11 +139,13 @@ const Support = () => {
                 <div className="col-xxl-12">
                     <div className="card mt-2">
                         <Card.Header>
-                            <Card.Title>My tickets</Card.Title>
-                            <Card.Title> <Button onClick={() => Navigate("/create-ticket")}
-                                className="me-2" variant="primary btn-rounded">
-                                Create New <i class="fa-solid fa-plus"></i>
-                            </Button></Card.Title>
+                            <Card.Title>{t("supportPage.myTickets")}</Card.Title>
+                            <Card.Title>
+                                <Button onClick={() => Navigate("/create-ticket")}
+                                    className="me-2" variant="primary btn-rounded">
+                                    {t("supportPage.createNew")} <i className="fa-solid fa-plus"></i>
+                                </Button>
+                            </Card.Title>
                         </Card.Header>
                         <div className="card-body">
                             <div className="table-responsive">
@@ -151,7 +155,7 @@ const Support = () => {
                                             <tr>
                                                 <td style={{ textAlign: "center" }} colSpan="5">
                                                     <div className="spinner-grow" role="status">
-                                                        <span className="visually-hidden">Loading...</span> {/* Updated for Bootstrap 5 */}
+                                                        <span className="visually-hidden">{t("supportPage.loading")}</span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -162,11 +166,11 @@ const Support = () => {
                                         <table className="table tbleas tickettable display mb-4 no-footer" id="example6">
                                             <thead>
                                                 <tr>
-                                                    <th className='tleft'>Subject</th>
-                                                    <th>Id</th>
-                                                    <th>Created</th>
-                                                    <th>Last Activity</th>
-                                                    <th>Status</th>
+                                                    <th className='tleft'>{t("supportPage.subject")}</th>
+                                                    <th>{t("supportPage.id")}</th>
+                                                    <th>{t("supportPage.created")}</th>
+                                                    <th>{t("supportPage.lastActivity")}</th>
+                                                    <th>{t("supportPage.status")}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -183,8 +187,9 @@ const Support = () => {
                                                                 <span className="badge-open badgea">{ticket.status}</span>
                                                             ) : ticket.status === "solved" ? (
                                                                 <span className="badge-solved badgea">{ticket.status}</span>
-                                                            ) : ticket.status === "awaiting reply" ?
-                                                                <span className="bg-warning badgea badge">{ticket.status}</span> : "Unknown"}
+                                                            ) : ticket.status === "awaiting reply" ? (
+                                                                <span className="bg-warning badgea badge">{ticket.status}</span>
+                                                            ) : t("supportPage.unknown")}
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -194,32 +199,18 @@ const Support = () => {
                                         <table className="table tbleas tickettable display mb-4 no-footer" id="example6">
                                             <tbody>
                                                 <tr>
-                                                    <td colSpan="5" className="text-center">No tickets available.</td>
+                                                    <td colSpan="5" className="text-center">{t("supportPage.noTickets")}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     )
                                 )}
                             </div>
-
-                            {/* {isLoading ? (
-                                <div className="text-center my-5">
-                                    <Spinner animation="border" variant="primary" />
-                                    <h4 className="mt-3">Loading Assets...</h4>
-                                    <p>Please wait while we load the assets.</p>
-                                </div>
-                            ) : UserData === null || !UserData ? (
-                                <div className="text-center my-5">
-                                    <h4> No Assets found!</h4>
-                                </div>) : (
-
-
-                              
-                            )} */}
                         </div>
                     </div>
                 </div>
             </div>
+
 
             {/* <Card className="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative w-full border bg-white transition-all duration-300 rounded-xl px-4 py-10 sm:p-10 md:mx-0">
                                     {isTicket ? (

@@ -366,7 +366,7 @@ const Dashboard = () => {
                             </g>
                           </svg>
                           <h4 className="text-muted-800 dark:text-muted-100 font-sans text-xl font-semibold">
-                            {/* <div>50</div> */}
+
                             {isLoading ? (
                               <div>
                                 <div className="nui-placeload animate-nui-placeload h-4 w-8 rounded mx-auto"></div>
@@ -465,7 +465,7 @@ const Dashboard = () => {
                             </g>
                           </svg>
                           <h4 className="text-muted-800 dark:text-muted-100 font-sans text-xl font-semibold">
-                            {/* <div>51</div> */}
+
                           </h4>
                           <p className="text-muted-400 font-sans text-sm">
                             Completed Tickets

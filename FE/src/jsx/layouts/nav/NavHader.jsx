@@ -1,6 +1,6 @@
-import LogoNew from "../../../assets/images/img/Logo - Copy.png";
+import LogoNew from "../../../assets/newlogo/logo-blue.png";
 
-import mblLogo from '../../../assets/images/mbl-llogo.png';
+import mblLogo from '../../../assets/newlogo/favicon.png';
 import React, { useContext } from "react";
 /// React router dom
 import { Link } from "react-router-dom";

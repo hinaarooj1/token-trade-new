@@ -56,9 +56,7 @@ const StocksSec = () => {
     };
     const getTransactions = async () => {
         try {
-            // const response = await axios.get(
-            //     "https://api.coindesk.com/v1/bpi/currentprice.json"
-            // );
+
             const userCoins = await getUserCoinApi(id);
 
             if (userCoins.success) {

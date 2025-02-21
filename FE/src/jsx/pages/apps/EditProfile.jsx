@@ -5,8 +5,10 @@ import { logoutApi, signleUsersApi, updateSignleUsersApi } from "../../../Api/Se
 import { toast } from "react-toastify";
 import { useAuthUser, useSignOut } from "react-auth-kit";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const EditProfile = () => {
+    const { t } = useTranslation()
     let signOut = useSignOut();
     const dispatch = useDispatch();
 
@@ -92,7 +94,7 @@ const EditProfile = () => {
             let formErrors = { ...errors };
 
             if (trimmedUserData.password !== trimmedUserData.confirmPassword) {
-                formErrors.confirmPassword = "Passwords do not match";
+                formErrors.confirmPassword = t('signupPage.passwordMismatch');
             } else {
                 delete formErrors.confirmPassword;
             }
@@ -115,7 +117,7 @@ const EditProfile = () => {
 
         // Ensure password match is checked
         if (trimmedUserData.password !== trimmedUserData.confirmPassword) {
-            formErrors.confirmPassword = "Passwords do not match";
+            formErrors.confirmPassword = t('signupPage.passwordMismatch');
             isValid = false;
         }
 
@@ -142,7 +144,7 @@ const EditProfile = () => {
                 toast.dismiss();
                 toast.success(signleUser.msg);
                 onLogout()
-                toast.info("Profile Updated! Please login again with new details")
+                toast.info(t('profilePage.infoUpdate'))
             } else {
                 toast.dismiss();
                 console.log('signleUsera: ', signleUser);
@@ -187,13 +189,13 @@ const EditProfile = () => {
                 <div className="col-xl-12 col-lg-12">
                     <div className="card profile-card card-bx">
                         <div className="card-header">
-                            <h6 className="card-title">Account setup</h6>
+                            <h6 className="card-title">{t("profilePage.accountSetup")}</h6>
                         </div>
                         <form className="profile-form" onSubmit={updateSignleUser}>
                             <div className="card-body">
                                 <div className="row">
                                     <div className="col-sm-6 mb-3">
-                                        <label className="form-label">First Name</label>
+                                        <label className="form-label">{t("profilePage.firstName")}</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -206,7 +208,7 @@ const EditProfile = () => {
                                     </div>
 
                                     <div className="col-sm-6 mb-3">
-                                        <label className="form-label">Last Name</label>
+                                        <label className="form-label">{t("profilePage.lastName")}</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -216,10 +218,9 @@ const EditProfile = () => {
                                             disabled={isDisable}
                                         />
                                         {errors.lastName && <div className="text-danger fs-12">{errors.lastName}</div>}
-
                                     </div>
                                     <div className="col-sm-6 mb-3">
-                                        <label className="form-label">Email Address</label>
+                                        <label className="form-label">{t("profilePage.email")}</label>
                                         <input
                                             type="email"
                                             className="form-control"
@@ -229,10 +230,9 @@ const EditProfile = () => {
                                             disabled={isDisable}
                                         />
                                         {errors.email && <div className="text-danger fs-12">{errors.email}</div>}
-
                                     </div>
                                     <div className="col-sm-6 mb-3 relative">
-                                        <label className="form-label">Password</label>
+                                        <label className="form-label">{t("profilePage.password")}</label>
                                         <input
                                             type={showPassword ? "text" : "password"}
                                             className="form-control"
@@ -241,19 +241,13 @@ const EditProfile = () => {
                                             onChange={handleInput}
                                             disabled={isDisable}
                                         />
-
-                                        <span
-                                            onClick={() => setShowPassword(!showPassword)} className=" eye">
-                                            {showPassword ?
-                                                <i class="fa-solid fa-eye"></i> :
-                                                <i className="fa fa-eye-slash" />}
-
-
+                                        <span onClick={() => setShowPassword(!showPassword)} className="eye">
+                                            {showPassword ? <i className="fa-solid fa-eye"></i> : <i className="fa fa-eye-slash" />}
                                         </span>
                                         {errors.password && <div className="text-danger fs-12">{errors.password}</div>}
                                     </div>
                                     <div className="col-sm-6 mb-3 relative">
-                                        <label className="form-label">Confirm Password</label>
+                                        <label className="form-label">{t("profilePage.confirmPassword")}</label>
                                         <input
                                             type={showConfirmPassword ? "text" : "password"}
                                             className="form-control"
@@ -262,18 +256,13 @@ const EditProfile = () => {
                                             onChange={handleInput}
                                             disabled={isDisable}
                                         />
-                                        <span
-                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)} className=" eye">
-                                            {showConfirmPassword ?
-                                                <i class="fa-solid fa-eye"></i> :
-                                                <i className="fa fa-eye-slash" />}
-
-
+                                        <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="eye">
+                                            {showConfirmPassword ? <i className="fa-solid fa-eye"></i> : <i className="fa fa-eye-slash" />}
                                         </span>
                                         {errors.confirmPassword && <div className="text-danger fs-12">{errors.confirmPassword}</div>}
                                     </div>
                                     <div className="col-sm-6 mb-3">
-                                        <label className="form-label">Phone</label>
+                                        <label className="form-label">{t("profilePage.phone")}</label>
                                         <input
                                             type="tel"
                                             className="form-control"
@@ -283,11 +272,10 @@ const EditProfile = () => {
                                             disabled={isDisable}
                                         />
                                         {errors.phone && <div className="text-danger fs-12">{errors.phone}</div>}
-
                                     </div>
 
                                     <div className="col-sm-6 mb-3">
-                                        <label className="form-label">Address</label>
+                                        <label className="form-label">{t("profilePage.address")}</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -297,10 +285,9 @@ const EditProfile = () => {
                                             disabled={isDisable}
                                         />
                                         {errors.address && <div className="text-danger fs-12">{errors.address}</div>}
-
                                     </div>
                                     <div className="col-sm-6 mb-3">
-                                        <label className="form-label">City</label>
+                                        <label className="form-label">{t("profilePage.city")}</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -310,10 +297,9 @@ const EditProfile = () => {
                                             disabled={isDisable}
                                         />
                                         {errors.city && <div className="text-danger fs-12">{errors.city}</div>}
-
                                     </div>
                                     <div className="col-sm-6 mb-3">
-                                        <label className="form-label">Country</label>
+                                        <label className="form-label">{t("profilePage.country")}</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -323,10 +309,9 @@ const EditProfile = () => {
                                             disabled={isDisable}
                                         />
                                         {errors.country && <div className="text-danger fs-12">{errors.country}</div>}
-
                                     </div>
                                     <div className="col-sm-6 mb-3">
-                                        <label className="form-label">Postal Code</label>
+                                        <label className="form-label">{t("profilePage.postalCode")}</label>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -336,23 +321,19 @@ const EditProfile = () => {
                                             disabled={isDisable}
                                         />
                                         {errors.postalCode && <div className="text-danger fs-12">{errors.phone}</div>}
-
                                     </div>
                                 </div>
                             </div>
                             <div className="card-footer align-items-center d-flex">
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary btn-sm"
-                                    disabled={isDisable}
-                                >
-                                    UPDATE
+                                <button type="submit" className="btn btn-primary btn-sm" disabled={isDisable}>
+                                    {t("profilePage.update")}
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
         </>
     )
 }
