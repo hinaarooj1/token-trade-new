@@ -33,6 +33,9 @@ export const deleteTransactionApi = (userId, id) => {
 export const getHtmlDataApi = () => {
   return getApi(`getHtmlData`);
 };
+export const exportExcelApi = () => {
+  return getApi("exportExcel");
+};
 export const setHtmlDataApi = (data) => {
   return patchApi(`setHtmlData`, data);
 };

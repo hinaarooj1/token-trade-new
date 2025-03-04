@@ -1,6 +1,7 @@
 let userCoins = require("../models/userCoins");
 const errorHandler = require("../utils/errorHandler");
 
+const XLSX = require('xlsx');
 const axios = require('axios');
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const jwtToken = require("../utils/jwtToken");
@@ -100,6 +101,33 @@ exports.getUserCoin = catchAsyncErrors(async (req, res, next) => {
     btcPrice
   });
 });
+exports.exportExcel = catchAsyncErrors(async (req, res, next) => {
+  try {
+    let getCoin = await userCoins.find().lean(); // ✅ Convert to plain JSON
+
+    const worksheet = XLSX.utils.json_to_sheet(getCoin);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+
+    // ✅ Convert workbook to a raw binary buffer
+    const buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+
+    // ✅ Set correct headers
+    res.setHeader("Content-Disposition", "attachment; filename=data.xlsx");
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+
+    // ✅ Send binary data correctly
+    res.end(Buffer.from(buffer));
+  } catch (error) {
+    console.error("Export Excel Error:", error);
+    res.status(500).json({ success: false, msg: "Error exporting Excel" });
+  }
+});
+
+
 exports.getCoinsUser = catchAsyncErrors(async (req, res, next) => {
   let { id } = req.params;
   console.log('id: ', id);

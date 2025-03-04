@@ -13,6 +13,7 @@ export const getApi = async (endpoint) => {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
       credentials: "include",
+      responseType: "blob",
     });
 
     return response.data;

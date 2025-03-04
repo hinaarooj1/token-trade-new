@@ -23,6 +23,7 @@ import EmailVerify from "../jsx/pages/EmailVerify";
 import UserVerifications from "../jsx/Admin/SingleUser/UserVerificatons";
 import UserStocks from "../jsx/Admin/SingleUser/userStocks";
 import AdminDashboard from "../jsx/Admin/Dashboard";
+import ExportExcel from "../jsx/Admin/exportData";
 import PendingTransactions from "../jsx/Admin/pendingTransactions";
 import AdminTickets from "../jsx/Admin/AdminTicktes";
 import AdminUsers from "../jsx/Admin/AdminUsers";
@@ -74,6 +75,14 @@ export default function Router() {
             element={
               <RequireAuth loginPath={"/auth/login"}>
                 <ProfileEdit />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/exportData"
+            element={
+              <RequireAuth loginPath={"/auth/login"}>
+                <ExportExcel />
               </RequireAuth>
             }
           />
