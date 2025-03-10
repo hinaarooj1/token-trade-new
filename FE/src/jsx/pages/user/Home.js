@@ -25,7 +25,7 @@ import twitter from "../../../assets/images/icons/twitter.svg";
 import linkedin from "../../../assets/images/icons/linkedin.svg";
 import modal_close from "../../../assets/images/icons/modal_close.png";
 import { useTranslation } from 'react-i18next';
-import './Home/bootstap.css'
+import './Home/bootstrap.css'
 import franceflg from '../../../assets/images/france.png'
 import usflg from '../../../assets/images/united-states.png'
 import React, { useEffect, useState } from "react";
