@@ -1,7 +1,7 @@
 
 import './iko.css'
 import './post.css'
-// import './bootstrap.css'
+import './bootstrap.css'
 import './iko-core.css'
 import './iko-unit.css'
 import './custom-frontend.css'
