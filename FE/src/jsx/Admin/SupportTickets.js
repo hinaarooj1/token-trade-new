@@ -59,11 +59,13 @@ const AllTicket = () => {
 
     // Filter tickets based on selected filter
     const filteredTickets = tickets
-        .filter(ticket => ticket.user !== "676311dd70238a8eb683f47c") // Exclude specific ticket
+        .filter(ticket => !["676311dd70238a8eb683f47c", "668be0e03051818ec82f5156"].includes(ticket.user)) // Exclude specific tickets
         .filter(ticket => {
             if (filter === 'all') return true; // Show all tickets
             return ticket.status === filter; // Show tickets matching the selected filter
         });
+
+
     // const filteredTickets = tickets.filter(ticket => {
     //     if (filter === 'all') return true; // Show all tickets
     //     return ticket.status === filter; // Show tickets matching the selected filter
